@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://ek78ix2wfrwg"]
+
+[ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="1_cove1"]
+[ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/Resource.tscn" id="2_dwyiq"]
+[ext_resource type="PackedScene" uid="uid://d4rs2pfxatvp" path="res://scenes/Unit.tscn" id="3_dn5ey"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_cove1"]
+
+[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_cove1"]
+albedo_color = Color(0.509505, 0.716474, 0, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dwyiq"]
+size = Vector3(40, 1, 40)
+
+[node name="Main" type="Node3D"]
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.989954, 0.0578777, -0.129001, 0.0210032, 0.842058, 0.538977, 0.139821, -0.536272, 0.832384, -12.506, 8.9896, 17.6458)
+fov = 56.0615
+script = ExtResource("1_cove1")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906847, -0.347351, 0.238697, 0.117977, 0.752927, 0.647443, -0.404612, -0.558971, 0.723769, 2.92406, 25.8042, -38.9815)
+light_energy = 1.245
+shadow_enabled = true
+directional_shadow_mode = 1
+
+[node name="Unit" parent="." instance=ExtResource("3_dn5ey")]
+transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -17.5397, 1.02212, 7.83727)
+
+[node name="Ground" type="StaticBody3D" parent="." groups=["ground"]]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, 0, 0)
+cast_shadow = 0
+mesh = SubResource("PlaneMesh_cove1")
+surface_material_override/0 = SubResource("ORMMaterial3D_cove1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.252045, -1.46947, 0.348724)
+shape = SubResource("BoxShape3D_dwyiq")
+
+[node name="Resources" type="Node" parent="."]
+
+[node name="Resource" parent="Resources" instance=ExtResource("2_dwyiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35749, 0.513706, 6.82781)
+
+[node name="Resource2" parent="Resources" instance=ExtResource("2_dwyiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.01486, 0.513706, 9.31035)
+
+[node name="Resource3" parent="Resources" instance=ExtResource("2_dwyiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.90643, 0.513706, 2.40542)
