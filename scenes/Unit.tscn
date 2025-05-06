@@ -5,7 +5,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_ypl2c"]
 
 [sub_resource type="ORMMaterial3D" id="ORMMaterial3D_c58w5"]
-albedo_color = Color(1, 0.38, 0.876, 1)
+albedo_color = Color(0.491096, 1, 0.242598, 1)
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_lqx2h"]
 
