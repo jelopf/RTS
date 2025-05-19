@@ -26,7 +26,7 @@ func _ready():
 
 func take_damage(amount):
 	current_health -= amount
-	print("Базе нанесён урон:", amount, "Осталось здоровья:", current_health)
+	#print("Базе нанесён урон:", amount, "Осталось здоровья:", current_health)
 	
 	update_health_bar()
 

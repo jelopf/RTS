@@ -1,10 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://ek78ix2wfrwg"]
+[gd_scene load_steps=11 format=3 uid="uid://ek78ix2wfrwg"]
 
 [ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="1_cove1"]
+[ext_resource type="Script" uid="uid://c5c5yyubocvhl" path="res://scenes/level_1.gd" id="1_svatc"]
 [ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/Resource.tscn" id="2_dwyiq"]
 [ext_resource type="PackedScene" uid="uid://d4rs2pfxatvp" path="res://scenes/Unit.tscn" id="3_dn5ey"]
 [ext_resource type="PackedScene" uid="uid://cn2v4n45drbl4" path="res://scenes/Base.tscn" id="4_dw26h"]
 [ext_resource type="Script" uid="uid://bucgt0yoy23s5" path="res://scripts/WaveManager.gd" id="5_lrl65"]
+[ext_resource type="PackedScene" uid="uid://2vwggparonoj" path="res://scenes/ShopMenu.tscn" id="6_76388"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_cove1"]
 
@@ -15,6 +17,7 @@ albedo_color = Color(0.36, 0.36, 0.36, 1)
 size = Vector3(40, 1, 40)
 
 [node name="Main" type="Node3D"]
+script = ExtResource("1_svatc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(0.997484, -0.00648395, -0.070593, 0.0564758, 0.674569, 0.736049, 0.0428473, -0.738184, 0.673238, -10.506, 8.9896, 17.6458)
@@ -58,3 +61,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.5, 14)
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("5_lrl65")
+
+[node name="UI" parent="." instance=ExtResource("6_76388")]
+
+[editable path="UI"]

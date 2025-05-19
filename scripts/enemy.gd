@@ -46,7 +46,7 @@ func attack_loop() -> void:
 		return
 
 	target_base.take_damage(attack_damage)
-	print("Враг атакует! Урон:", attack_damage)
+	# print("Враг атакует! Урон:", attack_damage)
 
 	# Ждём паузу и атакуем снова
 	await get_tree().create_timer(attack_interval).timeout

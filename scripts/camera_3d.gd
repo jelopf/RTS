@@ -10,18 +10,18 @@ func _input(event):
 		ray_params.to = to
 		ray_params.collide_with_areas = true
 		ray_params.collide_with_bodies = true
+
 		var result = space_state.intersect_ray(ray_params)
 
-		if result and result.collider.is_in_group("ground"):
-			var world_pos = result.position
-			var grid_pos = GridManager.world_to_grid(world_pos)
+		if not result:
+			return
 
-			if GridManager.is_cell_occupied(grid_pos):
-				print("Клетка занята!")
-				return
+		var clicked = result.collider
 
-			if GameManager.spend_metal(3):  # Стоимость постройки
-				var barracks = preload("res://scenes/Barracks.tscn").instantiate()
-				get_tree().current_scene.add_child(barracks)
-				barracks.global_transform.origin = GridManager.grid_to_world(grid_pos)
-				GridManager.occupy_cell(grid_pos)
+		# Всегда даём возможность кликнуть по ресурсу
+		if clicked and clicked.is_in_group("resource") and clicked.has_method("on_clicked"):
+			clicked.call("on_clicked")
+
+		# Только если в режиме строительства — пробуем построить
+		if GameManager.ghost_building and clicked and clicked.is_in_group("ground"):
+			PlacementManager.try_place_building(result.position)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://uvvtdi373wwd"]
+
+[ext_resource type="Script" uid="uid://b3x477nc5p12y" path="res://scripts/PlacementManager.gd" id="1_j5tis"]
+
+[node name="Node3D" type="Node3D"]
+script = ExtResource("1_j5tis")
