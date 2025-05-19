@@ -12,3 +12,7 @@ func _on_timer_timeout():
 		var unit = spawn_scene.instantiate()
 		get_parent().add_child(unit)
 		unit.global_transform.origin = global_transform.origin + Vector3(randf()*2.0, 1, randf()*2.0)
+
+func _on_destroyed():  # вызови при разрушении или удалении
+	var grid_pos = GridManager.world_to_grid(global_transform.origin)
+	GridManager.free_cell(grid_pos)
