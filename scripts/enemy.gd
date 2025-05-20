@@ -1,31 +1,30 @@
 extends CharacterBody3D
 
-@export var speed := 3.0
+@export var speed := 1.0
 @export var attack_range := 1.5
-@export var attack_damage := 10
-@export var attack_interval := 1.0  # как часто наносим урон
+@export var attack_damage := 4
+@export var attack_interval := 3.0  
 
-var target_base: Node3D
+var current_target: Node3D = null
 var is_attacking := false
 
 func _ready():
-	print("Враг загружен! Позиция:", global_transform.origin)
-	target_base = get_tree().get_current_scene().get_node("Base")
-	if target_base:
-		print("База найдена:", target_base.global_transform.origin)
-	else:
-		print("Ошибка: база не найдена!")
+	print("Враг загружен!")
+	find_target()
 
 func _physics_process(_delta):
-	if target_base and not is_attacking:
-		var distance = global_transform.origin.distance_to(target_base.global_transform.origin)
+	if not is_attacking:
+		find_target()
+
+	if current_target and not is_attacking:
+		var distance = global_transform.origin.distance_to(current_target.global_transform.origin)
 		if distance > attack_range:
-			move_towards_base()
+			move_towards(current_target)
 		else:
 			start_attacking()
 
-func move_towards_base():
-	var direction = (target_base.global_transform.origin - global_transform.origin).normalized()
+func move_towards(target):
+	var direction = (target.global_transform.origin - global_transform.origin).normalized()
 	velocity = direction * speed
 	move_and_slide()
 
@@ -35,19 +34,29 @@ func start_attacking():
 	attack_loop()
 
 func attack_loop() -> void:
-	if not target_base:
-		print("Базы нет. Прекращаем атаку.")
-		queue_free()
+	if not is_instance_valid(current_target):
+		is_attacking = false
+		find_target()
 		return
 
-	if not is_instance_valid(target_base):
-		print("База уничтожена.")
-		queue_free()
-		return
+	current_target.take_damage(attack_damage)
+	# print("Враг атакует:", current_target.name)
 
-	target_base.take_damage(attack_damage)
-	# print("Враг атакует! Урон:", attack_damage)
-
-	# Ждём паузу и атакуем снова
 	await get_tree().create_timer(attack_interval).timeout
 	attack_loop()
+
+func find_target():
+	var min_dist = INF
+	var closest = null
+	var my_position = global_transform.origin
+
+	for target in get_tree().get_nodes_in_group("targetable"):
+		if not is_instance_valid(target):
+			continue
+		var dist = my_position.distance_to(target.global_transform.origin)
+		if dist < min_dist:
+			min_dist = dist
+			closest = target
+
+	if closest:
+		current_target = closest

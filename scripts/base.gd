@@ -9,6 +9,7 @@ var mesh: Node3D = null  # визуальный меш базы
 
 func _ready():
 	current_health = max_health
+	add_to_group("targetable")
 
 	# Получаем ссылки на элементы UI
 	health_bar = $CanvasLayer/Control/ProgressBar
@@ -24,7 +25,7 @@ func _ready():
 	update_health_bar()
 	update_bar_position(global_transform.origin)
 
-func take_damage(amount):
+func take_damage(amount: int, _attacker: Node3D = null):
 	current_health -= amount
 	#print("Базе нанесён урон:", amount, "Осталось здоровья:", current_health)
 	

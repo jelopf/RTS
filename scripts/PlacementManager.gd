@@ -56,12 +56,16 @@ func try_place_building(world_position: Vector3):
 		building.global_transform.origin = GridManager.grid_to_world(grid_pos)
 		GridManager.occupy_cell(grid_pos)
 
+		if building.has_method("place_barracks"):
+			building.place_barracks()
+
 		ghost.queue_free()
 		ghost = null
 		GameManager.ghost_building = false
 		current_type = 0
 	else:
 		print("Недостаточно металла для покупки!")
+
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.keycode == KEY_ESCAPE and event.pressed:

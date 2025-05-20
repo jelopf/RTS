@@ -11,8 +11,6 @@ albedo_color = Color(1, 0.794667, 0.12, 1)
 
 [node name="Area3D" type="Area3D"]
 script = ExtResource("1_1ayam")
-hp = 100
-unit_count = 1
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_uneb2")

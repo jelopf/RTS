@@ -3,7 +3,6 @@ extends Node
 var metal := 10
 var selected_barracks_type := 1  # По умолчанию тип 1
 
-
 # Таблица с характеристиками казарм
 var barracks_data = {
 	1: {
