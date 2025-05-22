@@ -1,6 +1,6 @@
 extends Node
 
-@export var preparation_time := 1.0
+@export var preparation_time := 10.0
 @export var break_time := 5.0
 @export var waves: Array[int] = [1, 3, 5]  # Пример: [[3], [3], [5]]
 
@@ -33,16 +33,26 @@ func start_next_wave():
 
 	var enemy_count = waves[current_wave]
 	print("Волна ", current_wave + 1, " начинается! Противников: ", enemy_count)
-	spawn_enemies(enemy_count)
 
+	if GameManager.has_method("start_combat_phase"):
+		GameManager.start_combat_phase()
+
+	spawn_enemies(enemy_count)
 	current_wave += 1
+
 	await wait_for_wave_to_end()
+
+	if GameManager.has_method("end_combat_phase"):
+		GameManager.end_combat_phase()
+
 	if current_wave < waves.size():
 		print("Перерыв ", break_time, " секунд.")
 		await get_tree().create_timer(break_time).timeout
-		start_next_wave()
+		start_preparation_phase()
 	else:
 		print("Вы победили все волны!")
+
+
 
 func spawn_enemies(count):
 	for i in range(count):

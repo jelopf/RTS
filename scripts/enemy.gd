@@ -3,7 +3,8 @@ extends CharacterBody3D
 @export var speed := 1.0
 @export var attack_range := 1.5
 @export var attack_damage := 4
-@export var attack_interval := 3.0  
+@export var attack_interval := 3.0
+@export var hp := 15  
 
 var current_target: Node3D = null
 var is_attacking := false
@@ -39,8 +40,8 @@ func attack_loop() -> void:
 		find_target()
 		return
 
-	current_target.take_damage(attack_damage)
-	# print("Враг атакует:", current_target.name)
+	if current_target.has_method("take_damage"):
+		current_target.take_damage(attack_damage)
 
 	await get_tree().create_timer(attack_interval).timeout
 	attack_loop()
@@ -60,3 +61,20 @@ func find_target():
 
 	if closest:
 		current_target = closest
+
+func take_damage(amount: int, _attacker: Node3D = null):
+	hp -= amount
+	print("Враг получил урон:", amount, " Осталось HP:", hp)
+
+	if hp <= 0:
+		print("Враг уничтожен!")
+		queue_free()
+
+func on_clicked():
+	print("Враг был выбран как цель!")
+	var units = get_tree().get_nodes_in_group("unit")
+	for unit in units:
+		if is_instance_valid(unit) and not unit.is_busy and not unit.is_attacking:
+			unit.attack_target = self
+			unit.start_attack()
+			break 

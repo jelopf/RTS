@@ -2,6 +2,7 @@ extends Node
 
 var metal := 10
 var selected_barracks_type := 1  # По умолчанию тип 1
+var combat_active := false
 
 # Таблица с характеристиками казарм
 var barracks_data = {
@@ -66,3 +67,24 @@ func create_barracks(position: Vector3):
 	barracks.global_transform.origin = position
 	get_tree().current_scene.add_child(barracks)
 	print("Казарма создана с HP: ", data["hp"], ", юнитов: ", data["unit_count"])
+
+func start_combat_phase():
+	combat_active = true
+	print("Началась боевая фаза! Ресурсы временно недоступны.")
+	var resources = get_tree().get_nodes_in_group("resource")
+	for resource in resources:
+		if resource.has_method("hide_resource"):
+			resource.hide_resource()
+			resource.is_available = false
+
+func end_combat_phase():
+	combat_active = false
+	print("Боевая фаза завершена! Ресурсы снова доступны.")
+	var resources = get_tree().get_nodes_in_group("resource")
+	for resource in resources:
+		if resource.has_method("show_resource"):
+			resource.show_resource()
+			resource.is_available = true
+
+func is_combat_active() -> bool:
+	return combat_active

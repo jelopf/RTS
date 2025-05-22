@@ -11,12 +11,15 @@ var progress_bar_instance: Control = null
 var timer_label: Label = null
 var mesh: Node3D = null  # Визуальная часть руды
 
+
 func _ready():
 	# Ищем прогрессбар
 	mining_bar = $CanvasLayer/Control/ProgressBar
 	if mining_bar == null:
 		print("Ошибка: Прогрессбар не найден!")
 		return
+	add_to_group("resource")
+
 
 	# Ищем лейбл
 	timer_label = $CanvasLayer/Control/Label
@@ -46,9 +49,15 @@ func give_metal():
 
 func start_regen():
 	await get_tree().create_timer(regen_time).timeout
+
+	# Ждём до конца боевой фазы, если она всё ещё идёт
+	while GameManager.has_method("is_combat_active") and GameManager.is_combat_active():
+		await get_tree().create_timer(1.0).timeout
+
 	is_available = true
 	show_resource()
 	print("Руда восстановилась!")
+
 
 func hide_resource():
 	if mesh:
@@ -109,3 +118,10 @@ func update_bar_position(target_position):
 func hide_progress_bar():
 	mining_bar.visible = false
 	timer_label.text = ""
+
+func deactivate():
+	if is_available:
+		is_available = false
+		hide_resource()
+		hide_progress_bar()
+		print("Ресурс временно отключён.")

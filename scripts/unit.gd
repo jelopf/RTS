@@ -6,6 +6,8 @@ var target_position: Vector3
 var mining_target = null
 var attack_target = null
 var is_attacking = false
+var ready_to_attack = false
+
 
 @export var speed := 3.0
 @export var hp := 25
@@ -15,6 +17,8 @@ var is_attacking = false
 
 func _ready():
 	add_to_group("targetable")
+	add_to_group("unit")
+
 
 func start_mining(resource_node):
 	if is_busy:
@@ -25,8 +29,23 @@ func start_mining(resource_node):
 
 func _physics_process(_delta):
 	if is_attacking:
-		# Атакующий юнит не должен двигаться
-		velocity = Vector3.ZERO
+		if not is_instance_valid(attack_target):
+			is_attacking = false
+			is_busy = false
+			attack_target = null
+			ready_to_attack = false
+			return
+
+		var distance = global_transform.origin.distance_to(attack_target.global_transform.origin)
+		if distance > attack_range:
+			var direction = (attack_target.global_transform.origin - global_transform.origin).normalized()
+			velocity = direction * speed
+			move_and_slide()
+		else:
+			velocity = Vector3.ZERO
+			if not ready_to_attack:
+				ready_to_attack = true
+				attack_loop()
 		return
 
 	if is_busy and mining_target and not is_processing_mining:
@@ -37,6 +56,15 @@ func _physics_process(_delta):
 		if global_transform.origin.distance_to(target_position) < 2.0:
 			velocity = Vector3.ZERO
 			start_mining_process()
+			
+	if not is_busy and not is_processing_mining and not is_attacking:
+		var nearest = find_nearest_enemy()
+		if nearest:
+			attack_target = nearest
+			start_attack()
+
+
+
 
 func start_mining_process():
 	is_processing_mining = true
@@ -70,20 +98,21 @@ func start_attack():
 		return
 
 	is_attacking = true
-	velocity = Vector3.ZERO
-	attack_loop()
+	is_busy = true
+	ready_to_attack = false
+	target_position = attack_target.global_transform.origin
+
 
 func attack_loop():
 	if not is_instance_valid(attack_target):
 		print("Цель уничтожена.")
 		is_attacking = false
+		is_busy = false
 		attack_target = null
 		return
 
 	if global_transform.origin.distance_to(attack_target.global_transform.origin) > attack_range:
-		print("Цель слишком далеко. Останавливаем атаку.")
-		is_attacking = false
-		attack_target = null
+		# Ждём, пока дойдём - проверка и атака вернётся из _physics_process
 		return
 
 	# Атака цели
@@ -92,3 +121,26 @@ func attack_loop():
 
 	await get_tree().create_timer(attack_interval).timeout
 	attack_loop()
+
+	
+func interrupt_mining():
+	if is_processing_mining:
+		is_busy = false
+		is_processing_mining = false
+		if mining_target:
+			mining_target.hide_progress_bar()
+		mining_target = null
+		print("Добыча прервана. Юнит возвращён в боевую готовность.")
+		
+		
+func find_nearest_enemy() -> Node3D:
+	var nearest_enemy = null
+	var min_dist = INF
+	for enemy in get_tree().get_nodes_in_group("enemy"):
+		if not is_instance_valid(enemy):
+			continue
+		var dist = global_transform.origin.distance_to(enemy.global_transform.origin)
+		if dist < min_dist:
+			min_dist = dist
+			nearest_enemy = enemy
+	return nearest_enemy

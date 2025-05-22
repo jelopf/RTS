@@ -21,7 +21,11 @@ func _input(event):
 		# Всегда даём возможность кликнуть по ресурсу
 		if clicked and clicked.is_in_group("resource") and clicked.has_method("on_clicked"):
 			clicked.call("on_clicked")
-
+			
+		# Клик по врагу
+		if clicked and clicked.is_in_group("enemy") and clicked.has_method("on_clicked"):
+			clicked.call("on_clicked")
+			
 		# Только если в режиме строительства — пробуем построить
 		if GameManager.ghost_building and clicked and clicked.is_in_group("ground"):
 			PlacementManager.try_place_building(result.position)
