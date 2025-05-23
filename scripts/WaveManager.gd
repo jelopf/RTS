@@ -2,7 +2,8 @@ extends Node
 
 @export var preparation_time := 10.0
 @export var break_time := 5.0
-@export var waves: Array[int] = [1, 3, 5]  # Пример: [[3], [3], [5]]
+@export var waves: Array = [1, 3, 5]  # Пример: [[3], [3], [5]]
+var ui: Node = null  # UI сцена
 
 var current_wave := 0
 var is_active := false
@@ -34,11 +35,13 @@ func start_next_wave():
 	var enemy_count = waves[current_wave]
 	print("Волна ", current_wave + 1, " начинается! Противников: ", enemy_count)
 
+	update_wave_label()  # теперь логично — обновляем после расчёта
+
 	if GameManager.has_method("start_combat_phase"):
 		GameManager.start_combat_phase()
 
 	spawn_enemies(enemy_count)
-	current_wave += 1
+	current_wave += 1  # увеличиваем после спавна, чтобы в будущем была корректная проверка
 
 	await wait_for_wave_to_end()
 
@@ -52,11 +55,15 @@ func start_next_wave():
 	else:
 		print("Вы победили все волны!")
 
+		# Проверка и вызов UI кнопки
+		if ui and ui.has_method("show_next_level_button"):
+			ui.show_next_level_button()
+
 
 
 func spawn_enemies(count):
 	for i in range(count):
-		var enemy = preload("res://scenes/Enemy.tscn").instantiate()
+		var enemy = preload("res://scenes/humanoids/Enemy.tscn").instantiate()
 		# Добавляем врага в сцену
 		get_parent().add_child(enemy)
 		# Теперь задаем позицию после того, как враг добавлен в сцену
@@ -70,9 +77,14 @@ func wait_for_wave_to_end():
 
 func get_random_spawn_position():
 	# Возвращаем случайную точку спавна
-	return Vector3(-9.0, 0.5, 0.0)
+	return Vector3(randf_range(-5, 5), 0.5, 0.0)
 	
-func configure(waves_config: Array[int], preparation: float = 60.0, pause: float = 30.0):
+func configure(waves_config: Array, preparation: float = 60.0, pause: float = 30.0, ui_node: Node = null):
 	preparation_time = preparation
 	break_time = pause
 	waves = waves_config
+	ui = ui_node
+	
+func update_wave_label():
+	if ui and ui.has_method("set_wave_text"):
+		ui.set_wave_text("Волна: %d / %d" % [current_wave + 1, waves.size()])

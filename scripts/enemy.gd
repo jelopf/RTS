@@ -25,9 +25,13 @@ func _physics_process(_delta):
 			start_attacking()
 
 func move_towards(target):
-	var direction = (target.global_transform.origin - global_transform.origin).normalized()
+	var target_pos = target.global_transform.origin
+	target_pos.y = 0.5  # Принудительно по земле
+
+	var direction = (target_pos - global_transform.origin).normalized()
 	velocity = direction * speed
 	move_and_slide()
+
 
 func start_attacking():
 	is_attacking = true

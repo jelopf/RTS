@@ -10,19 +10,19 @@ var barracks_data = {
 		"hp": 100,
 		"units": 1,
 		"cost": 3,
-		"scene_path": "res://scenes/Barracks1.tscn"
+		"scene_path": "res://scenes/objects/Barracks1.tscn"
 	},
 	2: {
 		"hp": 175,
 		"units": 3,
 		"cost": 7,
-		"scene_path": "res://scenes/Barracks2.tscn"
+		"scene_path": "res://scenes/objects/Barracks2.tscn"
 	},
 	3: {
 		"hp": 250,
 		"units": 5,
 		"cost": 10,
-		"scene_path": "res://scenes/Barracks3.tscn"
+		"scene_path": "res://scenes/objects/Barracks3.tscn"
 	}
 }
 
@@ -61,7 +61,7 @@ func create_barracks(position: Vector3):
 	if not spend_metal(data["cost"]):
 		return
 
-	var barracks = preload("res://scenes/Barracks.tscn").instantiate()
+	var barracks = preload("res://scenes/objects/Barracks.tscn").instantiate()
 	barracks.hp = data["hp"]
 	barracks.unit_count = data["unit_count"]
 	barracks.global_transform.origin = position

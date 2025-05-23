@@ -1,0 +1,46 @@
+[gd_scene load_steps=2 format=3 uid="uid://6smgg4t2rruj"]
+
+[ext_resource type="Script" uid="uid://di64ly464bh8o" path="res://scripts/ui.gd" id="1_0wsoe"]
+
+[node name="UI" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0wsoe")
+
+[node name="NextLevelButton" type="Button" parent="."]
+visible = false
+offset_left = 963.0
+offset_top = 304.0
+offset_right = 1141.0
+offset_bottom = 335.0
+text = "Следующий уровень"
+
+[node name="WaveLabel" type="Label" parent="."]
+offset_left = 530.0
+offset_top = 31.0
+offset_right = 622.0
+offset_bottom = 54.0
+text = "Волна: 1 / 3"
+horizontal_alignment = 1
+
+[node name="VictoryLabel" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 540.0
+offset_top = 314.0
+offset_right = 605.0
+offset_bottom = 337.0
+text = "Победа!"
+
+[node name="MenuButton" type="Button" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 505.0
+offset_top = 364.0
+offset_right = 645.0
+offset_bottom = 395.0
+text = "Меню"

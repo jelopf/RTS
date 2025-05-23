@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://djgeqc4q3t5ux"]
+
+[ext_resource type="Script" uid="uid://dmyjbadkq1cih" path="res://scripts/resource.gd" id="1_b7d2j"]
+[ext_resource type="PackedScene" uid="uid://essfyml1y5bb" path="res://assets/Area-Finish/руда1.fbx" id="2_fegdm"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fegdm"]
+size = Vector3(1.9, 1.2, 1.7)
+
+[node name="Resource" type="Area3D" groups=["resource"]]
+script = ExtResource("1_b7d2j")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 15.0
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ProgressBar" type="ProgressBar" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = -46.0
+offset_top = -12.0
+offset_right = 43.0
+offset_bottom = 15.0
+
+[node name="Label" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_left = -45.0
+offset_top = -38.0
+offset_right = 41.0
+offset_bottom = -11.0
+
+[node name="Model" parent="." instance=ExtResource("2_fegdm")]
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.38807, 0.7, -1.19663)
+shape = SubResource("BoxShape3D_fegdm")

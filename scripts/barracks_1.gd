@@ -2,7 +2,7 @@ extends Node3D
 
 @export var hp := 100
 @export var unit_count := 1
-@export var spawn_scene := preload("res://scenes/Unit.tscn")  # сюда потом префаб юнита
+@export var spawn_scene := preload("res://scenes/humanoids/Unit.tscn")  # сюда потом префаб юнита
 
 var is_placed := false  # чтобы следить, построена ли казарма
 
