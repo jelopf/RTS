@@ -1,27 +1,21 @@
-[gd_scene load_steps=11 format=3 uid="uid://ek78ix2wfrwg"]
+[gd_scene load_steps=10 format=3 uid="uid://ek78ix2wfrwg"]
 
 [ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="1_cove1"]
-[ext_resource type="Script" uid="uid://c5c5yyubocvhl" path="res://scenes/level_1.gd" id="1_svatc"]
-[ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/Resource.tscn" id="2_dwyiq"]
+[ext_resource type="Script" uid="uid://c5c5yyubocvhl" path="res://scripts/level_1.gd" id="1_svatc"]
+[ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/Resource1.tscn" id="2_dwyiq"]
 [ext_resource type="PackedScene" uid="uid://d4rs2pfxatvp" path="res://scenes/Unit.tscn" id="3_dn5ey"]
 [ext_resource type="PackedScene" uid="uid://cn2v4n45drbl4" path="res://scenes/Base.tscn" id="4_dw26h"]
 [ext_resource type="Script" uid="uid://bucgt0yoy23s5" path="res://scripts/WaveManager.gd" id="5_lrl65"]
+[ext_resource type="PackedScene" uid="uid://coqhdoa2gkrp4" path="res://scenes/Resource2.tscn" id="5_n34uq"]
 [ext_resource type="PackedScene" uid="uid://2vwggparonoj" path="res://scenes/ShopMenu.tscn" id="6_76388"]
-
-[sub_resource type="PlaneMesh" id="PlaneMesh_cove1"]
-
-[sub_resource type="ORMMaterial3D" id="ORMMaterial3D_cove1"]
-albedo_color = Color(0.36, 0.36, 0.36, 1)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_dwyiq"]
-size = Vector3(40, 1, 40)
+[ext_resource type="PackedScene" uid="uid://bahj83hb8jkcg" path="res://scenes/Ground.tscn" id="8_ecr63"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_svatc")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.997484, -0.00648395, -0.070593, 0.0564758, 0.674569, 0.736049, 0.0428473, -0.738184, 0.673238, -10.506, 8.9896, 17.6458)
-fov = 58.4237
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 19.4)
+fov = 81.5625
 script = ExtResource("1_cove1")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
@@ -30,38 +24,40 @@ light_energy = 1.245
 shadow_enabled = true
 directional_shadow_mode = 1
 
-[node name="Unit" parent="." instance=ExtResource("3_dn5ey")]
-transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -14.5397, 0.02212, 10.8373)
-
-[node name="Ground" type="StaticBody3D" parent="." groups=["ground"]]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(50, 0, 0, 0, 50, 0, 0, 0, 50, 0, -1, 0)
-cast_shadow = 0
-mesh = SubResource("PlaneMesh_cove1")
-surface_material_override/0 = SubResource("ORMMaterial3D_cove1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.252045, -2.46947, 0.348724)
-shape = SubResource("BoxShape3D_dwyiq")
-
 [node name="Resources" type="Node" parent="."]
 
-[node name="Resource" parent="Resources" instance=ExtResource("2_dwyiq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.35749, -0.486294, 11.8278)
+[node name="Resource3" parent="Resources" instance=ExtResource("2_dwyiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.64251, -0.086294, 11.8278)
 
 [node name="Resource2" parent="Resources" instance=ExtResource("2_dwyiq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.62562, -0.486294, 9.31035)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.37438, -0.086294, 6.31035)
 
-[node name="Resource3" parent="Resources" instance=ExtResource("2_dwyiq")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.09357, -0.486294, 7.40542)
+[node name="Resource4" parent="Resources" instance=ExtResource("2_dwyiq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.9064, -0.086294, 2.40542)
+
+[node name="Resource1" parent="Resources" instance=ExtResource("5_n34uq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 8)
+
+[node name="Resource5" parent="Resources" instance=ExtResource("5_n34uq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -1)
 
 [node name="Base" parent="." instance=ExtResource("4_dw26h")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -9, -0.5, 14)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 17)
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("5_lrl65")
 
 [node name="UI" parent="." instance=ExtResource("6_76388")]
+
+[node name="Ground" parent="." instance=ExtResource("8_ecr63")]
+transform = Transform3D(1.0028, 0, 0, 0, 1.0028, 0, 0, 0, 1.0028, 0, 0, 0)
+
+[node name="Units" type="Node" parent="."]
+
+[node name="Unit1" parent="Units" instance=ExtResource("3_dn5ey")]
+transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -6.5397, 0.52212, 11.8373)
+
+[node name="Unit2" parent="Units" instance=ExtResource("3_dn5ey")]
+transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -7.5397, 0.52212, 10.8373)
 
 [editable path="UI"]

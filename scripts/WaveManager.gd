@@ -70,4 +70,9 @@ func wait_for_wave_to_end():
 
 func get_random_spawn_position():
 	# Возвращаем случайную точку спавна
-	return Vector3(-9.0, 0.0, 0.0)
+	return Vector3(-9.0, 0.5, 0.0)
+	
+func configure(waves_config: Array[int], preparation: float = 60.0, pause: float = 30.0):
+	preparation_time = preparation
+	break_time = pause
+	waves = waves_config

@@ -25,7 +25,11 @@ func start_mining(resource_node):
 		return # Юнит уже занят
 	is_busy = true
 	mining_target = resource_node
-	target_position = resource_node.global_transform.origin
+	
+	var raw_pos = resource_node.global_transform.origin
+	# Принудительно выставим Y в 0, чтобы идти по земле
+	target_position = Vector3(raw_pos.x, 0.5, raw_pos.z)
+
 
 func _physics_process(_delta):
 	if is_attacking:

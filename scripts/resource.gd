@@ -9,7 +9,7 @@ var mining_progress := 0.0
 var mining_bar: ProgressBar = null
 var progress_bar_instance: Control = null
 var timer_label: Label = null
-var mesh: Node3D = null  # Визуальная часть руды
+var mesh: Node3D = null 
 
 
 func _ready():
@@ -28,7 +28,7 @@ func _ready():
 		return
 
 	# Ищем визуальный меш
-	mesh = $MeshInstance3D  # Или замени путь на нужный тебе, если он другой
+	mesh = $"."  # Или замени путь на нужный тебе, если он другой
 
 	mining_bar.visible = false
 	progress_bar_instance = mining_bar.get_parent()

@@ -1,6 +1,6 @@
 extends Node
 
-const CELL_SIZE = 4.0  # размер одной клетки (в юнитах Godot)
+const CELL_SIZE = 6.0  # размер одной клетки (в юнитах Godot)
 
 var occupied_cells := {}
 

@@ -1,0 +1,63 @@
+[gd_scene load_steps=10 format=3 uid="uid://dcf0s0ij8ieaj"]
+
+[ext_resource type="Script" uid="uid://dma77hjqg0eap" path="res://scripts/level_3.gd" id="1_thei6"]
+[ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="2_iw2mh"]
+[ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/Resource1.tscn" id="3_opw0y"]
+[ext_resource type="PackedScene" uid="uid://coqhdoa2gkrp4" path="res://scenes/Resource2.tscn" id="4_g7sqe"]
+[ext_resource type="PackedScene" uid="uid://cn2v4n45drbl4" path="res://scenes/Base.tscn" id="5_turoa"]
+[ext_resource type="Script" uid="uid://bucgt0yoy23s5" path="res://scripts/WaveManager.gd" id="6_1fmh2"]
+[ext_resource type="PackedScene" uid="uid://2vwggparonoj" path="res://scenes/ShopMenu.tscn" id="7_t3dp5"]
+[ext_resource type="PackedScene" uid="uid://bahj83hb8jkcg" path="res://scenes/Ground.tscn" id="8_kid5y"]
+[ext_resource type="PackedScene" uid="uid://d4rs2pfxatvp" path="res://scenes/Unit.tscn" id="9_qtcjj"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_thei6")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 19.4)
+fov = 81.5625
+script = ExtResource("2_iw2mh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.906847, -0.347351, 0.238697, 0.117977, 0.752927, 0.647443, -0.404612, -0.558971, 0.723769, 2.92406, 25.8042, -38.9815)
+light_energy = 1.245
+shadow_enabled = true
+directional_shadow_mode = 1
+
+[node name="Resources" type="Node" parent="."]
+
+[node name="Resource3" parent="Resources" instance=ExtResource("3_opw0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.64251, 0.013706, 11.8278)
+
+[node name="Resource2" parent="Resources" instance=ExtResource("3_opw0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.37438, 0.013706, 6.31035)
+
+[node name="Resource4" parent="Resources" instance=ExtResource("3_opw0y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.9064, 0.113706, 2.40542)
+
+[node name="Resource1" parent="Resources" instance=ExtResource("4_g7sqe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.1, 8)
+
+[node name="Resource5" parent="Resources" instance=ExtResource("4_g7sqe")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -1)
+
+[node name="Base" parent="." instance=ExtResource("5_turoa")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 17)
+
+[node name="WaveManager" type="Node" parent="."]
+script = ExtResource("6_1fmh2")
+
+[node name="UI" parent="." instance=ExtResource("7_t3dp5")]
+
+[node name="Ground" parent="." instance=ExtResource("8_kid5y")]
+transform = Transform3D(1.0028, 0, 0, 0, 1.0028, 0, 0, 0, 1.0028, 0, 0, 0)
+
+[node name="Units" type="Node" parent="."]
+
+[node name="Unit1" parent="Units" instance=ExtResource("9_qtcjj")]
+transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -6.5397, 0.52212, 11.8373)
+
+[node name="Unit2" parent="Units" instance=ExtResource("9_qtcjj")]
+transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -7.5397, 0.52212, 10.8373)
+
+[editable path="UI"]

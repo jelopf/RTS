@@ -1,6 +1,6 @@
 extends Node
 
-var metal := 10
+var metal := 100
 var selected_barracks_type := 1  # По умолчанию тип 1
 var combat_active := false
 

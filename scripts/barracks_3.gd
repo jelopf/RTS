@@ -1,4 +1,4 @@
-extends Area3D
+extends Node3D
 
 @export var hp := 250
 @export var unit_count := 5
@@ -13,7 +13,7 @@ func _ready():
 func place_barracks():
 	is_placed = true
 	add_to_group("targetable")
-	$Timer.wait_time = 20.0
+	$Timer.wait_time = 5.0
 	$Timer.start()
 	print("Казарма активирована и начала спавн юнитов.")
 
@@ -24,7 +24,7 @@ func _on_timer_timeout():
 	for i in unit_count:
 		var unit = spawn_scene.instantiate()
 		get_parent().add_child(unit)
-		unit.global_transform.origin = global_transform.origin + Vector3(randf() * 2.0, 1, randf() * 2.0)
+		unit.global_transform.origin = global_transform.origin + Vector3(randf() * 2.0, 0.5, randf() * 2.0)
 
 func take_damage(amount: int, _attacker: Node3D = null):
 	if not is_placed:

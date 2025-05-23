@@ -1,4 +1,4 @@
-extends Area3D
+extends Node3D
 
 @export var hp := 100
 @export var unit_count := 1
