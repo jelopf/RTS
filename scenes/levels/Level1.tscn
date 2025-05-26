@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://ek78ix2wfrwg"]
+[gd_scene load_steps=23 format=3 uid="uid://ek78ix2wfrwg"]
 
 [ext_resource type="Script" uid="uid://c5c5yyubocvhl" path="res://scripts/level_1.gd" id="1_7d7pp"]
 [ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="2_e5nfq"]
@@ -10,8 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://bahj83hb8jkcg" path="res://scenes/objects/Ground.tscn" id="8_p5s5a"]
 [ext_resource type="PackedScene" uid="uid://6smgg4t2rruj" path="res://scenes/UI/UI.tscn" id="9_j7nyf"]
 [ext_resource type="PackedScene" uid="uid://d4rs2pfxatvp" path="res://scenes/humanoids/Unit.tscn" id="9_njy47"]
+[ext_resource type="PackedScene" uid="uid://cbcgni5mmqi3u" path="res://scenes/UI/DefeatScreen.tscn" id="10_j7nyf"]
 [ext_resource type="PackedScene" uid="uid://c8rjqdoierplg" path="res://assets/Area-Finish/гора(м).fbx" id="10_p5s5a"]
 [ext_resource type="PackedScene" uid="uid://bn26lg0wf1ys" path="res://assets/Area-Finish/гора.fbx" id="11_njy47"]
+[ext_resource type="PackedScene" uid="uid://dft05l1fh6dlc" path="res://scenes/UI/VictoryScreen.tscn" id="11_xbvxr"]
 [ext_resource type="PackedScene" uid="uid://bw4skriyegcvo" path="res://assets/Area-Finish/куст3.fbx" id="12_j7nyf"]
 [ext_resource type="PackedScene" uid="uid://cay22nr47kmuc" path="res://assets/Area-Finish/куст2.fbx" id="13_xbvxr"]
 [ext_resource type="PackedScene" uid="uid://dhh4y3151irt6" path="res://assets/Area-Finish/куст1.fbx" id="14_bspq0"]
@@ -84,10 +86,16 @@ anchors_preset = 0
 [node name="LevelUI" parent="UI" instance=ExtResource("9_j7nyf")]
 layout_mode = 1
 
+[node name="DefeatScreen" parent="UI" instance=ExtResource("10_j7nyf")]
+layout_mode = 1
+
+[node name="VictoryScreen" parent="UI" instance=ExtResource("11_xbvxr")]
+layout_mode = 1
+
 [node name="Units" type="Node" parent="."]
 
 [node name="Unit1" parent="Units" instance=ExtResource("9_njy47")]
-transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -6.5397, 0.52212, 11.8373)
+transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, 3.4603, 0.52212, 11.8373)
 
 [node name="Unit2" parent="Units" instance=ExtResource("9_njy47")]
 transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -7.5397, 0.52212, 10.8373)

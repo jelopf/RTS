@@ -25,8 +25,15 @@ func _input(event):
 
 			
 		# Клик по врагу
-		if clicked and clicked.is_in_group("enemy") and clicked.has_method("on_clicked"):
-			clicked.call("on_clicked")
+		if clicked and clicked.is_in_group("enemy"):
+			if clicked.has_method("on_clicked"):
+				clicked.call("on_clicked")
+
+			var selected_units = GameManager.get_selected_units()
+			for unit in selected_units:
+				if unit.has_method("set_attack_target"):
+					unit.set_attack_target(clicked)
+
 			
 		# Только если в режиме строительства — пробуем построить
 		if GameManager.ghost_building and clicked and clicked.is_in_group("ground"):

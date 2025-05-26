@@ -24,7 +24,8 @@ func start_next_wave():
 	if current_wave >= waves.size():
 		print("Все волны завершены!")
 		return
-
+	
+	update_wave_label()  
 	var enemy_count = waves[current_wave]
 	print("Волна ", current_wave + 1, " начинается! Противников: ", enemy_count)
 	
@@ -41,7 +42,7 @@ func start_next_wave():
 
 	if GameManager.has_method("end_combat_phase"):
 		GameManager.end_combat_phase()
-		update_wave_label()  
+		
 		
 
 	if current_wave < waves.size():
@@ -50,6 +51,8 @@ func start_next_wave():
 		start_preparation_phase()
 	else:
 		print("Вы победили все волны!")
+		GameManager.show_victory_screen()
+		
 
 		# Проверка и вызов UI кнопки
 		if ui and ui.has_method("show_next_level_button"):
@@ -84,25 +87,5 @@ func configure(waves_config: Array, preparation: float = 60.0, pause: float = 30
 func update_wave_label():
 	ui.set_wave_text("Волна: %d / %d" % [current_wave + 1, waves.size()])
 		
-func check_game_over():
-	var units = get_tree().get_nodes_in_group("unit")
-	var barracks = get_tree().get_nodes_in_group("barracks")
-
-	var has_units = false
-	for unit in units:
-		if unit.is_inside_tree():
-			has_units = true
-			break
-
-	var has_barracks = false
-	for barrack in barracks:
-		if barrack.is_inside_tree() and not barrack.is_queued_for_deletion():
-			has_barracks = true
-			break
-
-	if not has_units and not has_barracks:
-		game_over()
-
-func game_over():
-	print("Игра окончена! Все юниты и казармы уничтожены.")
-	# TODO: переход на экран поражения, перезапуск уровня и т.п.
+	
+	

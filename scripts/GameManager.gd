@@ -1,6 +1,6 @@
 extends Node
 
-var metal := 100
+var metal := 0
 var selected_barracks_type := 1  # По умолчанию тип 1
 var combat_active := false
 var ui_node: Node = null
@@ -26,6 +26,20 @@ var barracks_data = {
 		"scene_path": "res://scenes/objects/Barracks3.tscn"
 	}
 }
+
+var levels = [
+	"res://scenes/levels/Level1.tscn",
+	"res://scenes/levels/Level2.tscn",
+	"res://scenes/levels/Level3.tscn"
+]
+
+func get_next_level_path() -> String:
+	var current = get_tree().current_scene.scene_file_path
+	var index = levels.find(current)
+	if index >= 0 and index + 1 < levels.size():
+		return levels[index + 1]
+	return ""  # Больше нет уровней
+	
 
 var ghost_building := false  # Флаг: в режиме предпросмотра или нет
 
@@ -131,3 +145,25 @@ func check_game_over():
 
 func game_over():
 	print("Игра окончена! Все юниты и казармы уничтожены.")
+	metal = 0
+	show_game_over_screen()
+
+
+func show_game_over_screen():
+	var screen = get_tree().current_scene.get_node("UI/DefeatScreen")
+	if screen:
+		screen.visible = true
+
+func show_victory_screen():
+	var screen = get_tree().current_scene.get_node("UI/VictoryScreen")
+	if screen:
+		screen.visible = true
+
+var selected_units: Array = []
+
+func get_selected_units() -> Array:
+	return selected_units
+
+func set_selected_units(units: Array) -> void:
+	selected_units = units
+	

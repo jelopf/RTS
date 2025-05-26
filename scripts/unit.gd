@@ -8,11 +8,13 @@ var attack_target = null
 var is_attacking = false
 var ready_to_attack = false
 var is_dead_flag = false 
+var manual_attack_target := false
 
-@export var speed := 3.0
-@export var hp := 10
+
+@export var speed := 2.0
+@export var hp := 100
 @export var attack_range := 2.0
-@export var attack_damage := 4
+@export var attack_damage := 10
 @export var attack_interval := 3.0
 
 func _ready():
@@ -29,6 +31,7 @@ func start_mining(resource_node):
 
 func _physics_process(_delta):
 	if is_attacking:
+
 		if not is_instance_valid(attack_target):
 			is_attacking = false
 			is_busy = false
@@ -37,6 +40,7 @@ func _physics_process(_delta):
 			return
 
 		var distance = global_transform.origin.distance_to(attack_target.global_transform.origin)
+
 		if distance > attack_range:
 			var direction = (attack_target.global_transform.origin - global_transform.origin).normalized()
 			velocity = direction * speed
@@ -52,16 +56,19 @@ func _physics_process(_delta):
 		var direction = (target_position - global_transform.origin).normalized()
 		velocity = direction * speed
 		move_and_slide()
+	
 
 		if global_transform.origin.distance_to(target_position) < 2.0:
 			velocity = Vector3.ZERO
 			start_mining_process()
 
 	if not is_busy and not is_processing_mining and not is_attacking:
-		var nearest = find_nearest_enemy()
-		if nearest:
-			attack_target = nearest
-			start_attack()
+		if not attack_target and not manual_attack_target:
+			var nearest = find_nearest_enemy()
+			if nearest:
+				attack_target = nearest
+				start_attack()
+
 
 func start_mining_process():
 	if GameManager.is_combat_active():
@@ -112,12 +119,14 @@ func start_attack():
 	ready_to_attack = false
 	target_position = attack_target.global_transform.origin
 
+
 func attack_loop():
 	if not is_instance_valid(attack_target):
 		print("Цель уничтожена.")
 		is_attacking = false
 		is_busy = false
 		attack_target = null
+		manual_attack_target = false
 		return
 
 	if global_transform.origin.distance_to(attack_target.global_transform.origin) > attack_range:
@@ -152,3 +161,17 @@ func find_nearest_enemy() -> Node3D:
 	
 func is_dead() -> bool:
 	return hp <= 0 or not is_inside_tree()
+
+func set_attack_target(target: Node3D):
+	if is_dead_flag or not is_instance_valid(target):
+		return
+
+	# Прерываем текущую атаку
+	is_attacking = false
+	ready_to_attack = false
+	attack_target = null
+
+	interrupt_mining()  # Остановим добычу
+	attack_target = target
+	manual_attack_target = true
+	start_attack()

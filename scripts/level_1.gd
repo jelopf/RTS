@@ -5,7 +5,7 @@ extends Node3D
 @onready var ui = $UI/LevelUI
 
 func _ready():
-	wave_manager.configure([3, 3, 5], 10.0, 10.0, ui)
+	wave_manager.configure([3, 3, 5], 15.0, 10.0, ui)
 	GameManager.set_ui(ui)
 	
 func _unhandled_input(event):

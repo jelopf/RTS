@@ -90,12 +90,22 @@ func on_clicked():
 
 func assign_unit_to_mine():
 	var units = get_tree().get_nodes_in_group("unit")
-	print("Найдено юнитов: ", units.size())
+	var closest_unit = null
+	var closest_distance = INF
+
 	for unit in units:
-		if not unit.is_busy:
-			print("Юнит отправлен на руду!")
-			unit.start_mining(self)
-			break
+		if unit.is_busy or unit.is_processing_mining or unit.is_dead():
+			continue
+		var distance = global_transform.origin.distance_to(unit.global_transform.origin)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_unit = unit
+
+	if closest_unit:
+		print("Ближайший юнит отправлен на добычу!")
+		closest_unit.start_mining(self)
+	else:
+		print("Нет свободных юнитов для добычи.")
 
 func show_progress_bar():
 	mining_bar.visible = true
