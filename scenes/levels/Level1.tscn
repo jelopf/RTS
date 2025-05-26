@@ -1,56 +1,88 @@
-[gd_scene load_steps=10 format=3 uid="uid://ek78ix2wfrwg"]
+[gd_scene load_steps=21 format=3 uid="uid://ek78ix2wfrwg"]
 
 [ext_resource type="Script" uid="uid://c5c5yyubocvhl" path="res://scripts/level_1.gd" id="1_7d7pp"]
 [ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="2_e5nfq"]
+[ext_resource type="Texture2D" uid="uid://bd827u8qorxsd" path="res://assets/sky)/sky1.png" id="2_njy47"]
 [ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/objects/Resource1.tscn" id="3_lha2r"]
 [ext_resource type="PackedScene" uid="uid://coqhdoa2gkrp4" path="res://scenes/objects/Resource2.tscn" id="4_6owa4"]
-[ext_resource type="PackedScene" uid="uid://cn2v4n45drbl4" path="res://scenes/objects/Base.tscn" id="5_n5pya"]
 [ext_resource type="Script" uid="uid://bucgt0yoy23s5" path="res://scripts/WaveManager.gd" id="6_kypp1"]
 [ext_resource type="PackedScene" uid="uid://2vwggparonoj" path="res://scenes/UI/ShopMenu.tscn" id="7_ukjja"]
 [ext_resource type="PackedScene" uid="uid://bahj83hb8jkcg" path="res://scenes/objects/Ground.tscn" id="8_p5s5a"]
+[ext_resource type="PackedScene" uid="uid://6smgg4t2rruj" path="res://scenes/UI/UI.tscn" id="9_j7nyf"]
 [ext_resource type="PackedScene" uid="uid://d4rs2pfxatvp" path="res://scenes/humanoids/Unit.tscn" id="9_njy47"]
+[ext_resource type="PackedScene" uid="uid://c8rjqdoierplg" path="res://assets/Area-Finish/гора(м).fbx" id="10_p5s5a"]
+[ext_resource type="PackedScene" uid="uid://bn26lg0wf1ys" path="res://assets/Area-Finish/гора.fbx" id="11_njy47"]
+[ext_resource type="PackedScene" uid="uid://bw4skriyegcvo" path="res://assets/Area-Finish/куст3.fbx" id="12_j7nyf"]
+[ext_resource type="PackedScene" uid="uid://cay22nr47kmuc" path="res://assets/Area-Finish/куст2.fbx" id="13_xbvxr"]
+[ext_resource type="PackedScene" uid="uid://dhh4y3151irt6" path="res://assets/Area-Finish/куст1.fbx" id="14_bspq0"]
+[ext_resource type="PackedScene" uid="uid://dstj8sg1aoplb" path="res://assets/Area-Finish/кустик2.fbx" id="15_dqba7"]
+[ext_resource type="PackedScene" uid="uid://bmli5e5h0q5v" path="res://assets/Area-Finish/кустик1.fbx" id="16_usw5k"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_j7nyf"]
+rayleigh_coefficient = 0.0
+rayleigh_color = Color(0, 0, 0, 1)
+mie_color = Color(0.3432, 0.82632, 0.88, 1)
+night_sky = ExtResource("2_njy47")
+
+[sub_resource type="Sky" id="Sky_xbvxr"]
+sky_material = SubResource("PhysicalSkyMaterial_j7nyf")
+
+[sub_resource type="Environment" id="Environment_bspq0"]
+background_mode = 2
+sky = SubResource("Sky_xbvxr")
+sky_rotation = Vector3(0, -4.56927, 0)
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_7d7pp")
 
+[node name="Ground" parent="." instance=ExtResource("8_p5s5a")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_bspq0")
+
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 5, 19.4)
-fov = 81.5625
+transform = Transform3D(1, 0, 0, 0, 0.996195, 0.087156, 0, -0.087156, 0.996195, 0, 4, 16.4)
+current = true
+fov = 90.3058
 script = ExtResource("2_e5nfq")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906847, -0.347351, 0.238697, 0.117977, 0.752927, 0.647443, -0.404612, -0.558971, 0.723769, 2.92406, 25.8042, -38.9815)
+light_color = Color(0.8372, 0.890587, 0.91, 1)
 light_energy = 1.245
 shadow_enabled = true
 directional_shadow_mode = 1
+sky_mode = 1
 
 [node name="Resources" type="Node" parent="."]
 
 [node name="Resource3" parent="Resources" instance=ExtResource("3_lha2r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.64251, -0.086294, 11.8278)
+transform = Transform3D(-0.965926, 0, 0.258819, 0, 1, 0, -0.258819, 0, -0.965926, 11.643, 0, 9.828)
 
 [node name="Resource2" parent="Resources" instance=ExtResource("3_lha2r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.37438, -0.086294, 6.31035)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.374, 0, 6.31)
 
 [node name="Resource4" parent="Resources" instance=ExtResource("3_lha2r")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -14.9064, -0.086294, 2.40542)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.906, 0, 5.405)
 
 [node name="Resource1" parent="Resources" instance=ExtResource("4_6owa4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, 8)
 
 [node name="Resource5" parent="Resources" instance=ExtResource("4_6owa4")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -1)
-
-[node name="Base" parent="." instance=ExtResource("5_n5pya")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 17)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 1)
 
 [node name="WaveManager" type="Node" parent="."]
 script = ExtResource("6_kypp1")
 
-[node name="UI" parent="." instance=ExtResource("7_ukjja")]
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 
-[node name="Ground" parent="." instance=ExtResource("8_p5s5a")]
-transform = Transform3D(1.0028, 0, 0, 0, 1.0028, 0, 0, 0, 1.0028, 0, 0, 0)
+[node name="ShopMenu" parent="UI" instance=ExtResource("7_ukjja")]
+
+[node name="LevelUI" parent="UI" instance=ExtResource("9_j7nyf")]
+layout_mode = 1
 
 [node name="Units" type="Node" parent="."]
 
@@ -60,4 +92,49 @@ transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -6.5397, 0.
 [node name="Unit2" parent="Units" instance=ExtResource("9_njy47")]
 transform = Transform3D(1.00674, 0, 0, 0, 1.00674, 0, 0, 0, 1.00674, -7.5397, 0.52212, 10.8373)
 
-[editable path="UI"]
+[node name="Decorations" type="Node" parent="."]
+
+[node name="гора(м)" parent="Decorations" instance=ExtResource("10_p5s5a")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 16, 0, -3)
+
+[node name="гора(м)" parent="Decorations/гора(м)" instance=ExtResource("10_p5s5a")]
+transform = Transform3D(-0.517638, 0, 1.93185, 0, 2, 0, -1.93185, 0, -0.517638, -13, -0.05, -8)
+
+[node name="гора(м)2" parent="Decorations/гора(м)" instance=ExtResource("10_p5s5a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, -3)
+
+[node name="гора" parent="Decorations" instance=ExtResource("11_njy47")]
+transform = Transform3D(1.73205, 0, -1, 0, 2, 0, 1, 0, 1.73205, 9, -0.2, -24)
+
+[node name="куст3" parent="Decorations" instance=ExtResource("12_j7nyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, -3)
+
+[node name="куст2" parent="Decorations" instance=ExtResource("13_xbvxr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18, 0, 3)
+
+[node name="куст1" parent="Decorations" instance=ExtResource("14_bspq0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -10)
+
+[node name="куст4" parent="Decorations" instance=ExtResource("12_j7nyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -12)
+
+[node name="куст5" parent="Decorations" instance=ExtResource("12_j7nyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 0, 7)
+
+[node name="кустик2" parent="Decorations" instance=ExtResource("15_dqba7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -13, 0, 9)
+
+[node name="кустик1" parent="Decorations" instance=ExtResource("16_usw5k")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 15, 0, 4)
+
+[node name="кустик3" parent="Decorations" instance=ExtResource("15_dqba7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, -11)
+
+[node name="куст6" parent="Decorations" instance=ExtResource("12_j7nyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -15)
+
+[node name="куст6" parent="Decorations/куст6" instance=ExtResource("12_j7nyf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+
+[node name="куст1" parent="Decorations/куст6" instance=ExtResource("14_bspq0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 3)

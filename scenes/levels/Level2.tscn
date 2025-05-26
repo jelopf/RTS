@@ -49,6 +49,9 @@ script = ExtResource("6_6rin4")
 
 [node name="UI" parent="." instance=ExtResource("7_5v643")]
 
+[node name="PlacementHint" parent="UI" index="0"]
+layout_mode = 0
+
 [node name="Ground" parent="." instance=ExtResource("8_o6ptl")]
 transform = Transform3D(1.0028, 0, 0, 0, 1.0028, 0, 0, 0, 1.0028, 0, 0, 0)
 

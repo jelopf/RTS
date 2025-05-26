@@ -2,6 +2,6 @@ extends Label
 
 func _process(_delta):
 	if GameManager.ghost_building:
-		text = "Выберите место на карте\nНажмите [Esc], чтобы отменить"
+		self.visible = true
 	else:
-		text = ""
+		self.visible = false

@@ -3,7 +3,21 @@
 [ext_resource type="Script" uid="uid://cr7llkc4oor6g" path="res://scripts/ShopMenu.gd" id="1_voj7l"]
 [ext_resource type="Script" uid="uid://caw3akmty42o" path="res://scripts/placement_hint.gd" id="2_342an"]
 
-[node name="Node" type="Node"]
+[node name="Node" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="PlacementHint" type="Label" parent="."]
+visible = false
+layout_mode = 0
+offset_left = 6.0
+offset_top = 593.0
+offset_right = 263.0
+offset_bottom = 642.0
+text = "Выберите место на карте
+Нажмите [Esc], чтобы отменить"
+vertical_alignment = 2
+script = ExtResource("2_342an")
 
 [node name="ShopMenu" type="Control" parent="."]
 visible = false
@@ -46,12 +60,3 @@ XP: 250
 Кол-во юнитов: 5
 Стоимость: 10
 "
-
-[node name="PlacementHint" type="Label" parent="."]
-offset_left = 6.0
-offset_top = 593.0
-offset_right = 263.0
-offset_bottom = 642.0
-text = "Выберите место на карте
-Нажмите [Esc], чтобы отменить"
-script = ExtResource("2_342an")

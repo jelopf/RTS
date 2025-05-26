@@ -8,6 +8,7 @@ func _ready():
 func _on_type_1_pressed():
 	PlacementManager.start_placement(1) 
 	visible = false  # прячем сам магазин
+	
 
 func _on_type_2_pressed():
 	PlacementManager.start_placement(2)

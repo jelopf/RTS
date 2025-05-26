@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://cnlo7cvqw7j8h"]
+[gd_scene load_steps=2 format=3 uid="uid://cnlo7cvqw7j8h"]
+
+[ext_resource type="Script" uid="uid://bstrp6hncw2j8" path="res://scripts/main_menu.gd" id="1_11hie"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -7,3 +9,56 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_11hie")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 517.0
+offset_top = 251.0
+offset_right = 639.0
+offset_bottom = 409.0
+
+[node name="Button1" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Играть"
+
+[node name="Button3" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Выход
+"
+
+[node name="LevelSelectPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 2
+offset_left = 651.0
+offset_top = 256.0
+offset_right = 773.0
+offset_bottom = 256.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelSelectPanel"]
+layout_mode = 0
+offset_right = 281.0
+offset_bottom = 101.0
+
+[node name="Button" type="Button" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+text = "Уровень 1"
+
+[node name="Button2" type="Button" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Уровень 2"
+
+[node name="Button3" type="Button" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+disabled = true
+text = "Уровень 3
+"
+
+[connection signal="pressed" from="VBoxContainer/Button1" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="LevelSelectPanel/VBoxContainer/Button" to="." method="_on_level_1_pressed"]
+[connection signal="pressed" from="LevelSelectPanel/VBoxContainer/Button2" to="." method="_on_level_2_pressed"]
+[connection signal="pressed" from="LevelSelectPanel/VBoxContainer/Button3" to="." method="_on_level_3_pressed"]

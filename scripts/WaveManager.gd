@@ -3,7 +3,8 @@ extends Node
 @export var preparation_time := 30.0
 @export var break_time := 5.0
 @export var waves: Array = [1, 3, 5]  # Пример: [[3], [3], [5]]
-var ui: Node = null  # UI сцена
+var ui: Node = null
+
 
 var current_wave := 0
 var is_active := false
@@ -11,15 +12,7 @@ var player_base: Node3D  # Ссылка на базу игрока
 
 func _ready():
 	# Безопасное ожидание, чтобы убедиться, что сцена готова
-	await get_tree().create_timer(0.1).timeout  # Немного ждем перед тем, как найти базу
-
-	# Путь к базе - ищем по родительскому узлу, предполагаем, что база находится в родительской сцене
-	player_base = get_parent().get_node("Base")  # Можно попробовать заменить на правильный путь
-	if player_base:
-		print("База игрока найдена!")
-	else:
-		print("Ошибка: база не найдена!")
-
+	await get_tree().create_timer(0.1).timeout
 	start_preparation_phase()
 
 func start_preparation_phase():
@@ -34,8 +27,9 @@ func start_next_wave():
 
 	var enemy_count = waves[current_wave]
 	print("Волна ", current_wave + 1, " начинается! Противников: ", enemy_count)
+	
 
-	update_wave_label()  # теперь логично — обновляем после расчёта
+	
 
 	if GameManager.has_method("start_combat_phase"):
 		GameManager.start_combat_phase()
@@ -47,6 +41,7 @@ func start_next_wave():
 
 	if GameManager.has_method("end_combat_phase"):
 		GameManager.end_combat_phase()
+		update_wave_label()  
 		
 
 	if current_wave < waves.size():
@@ -87,5 +82,27 @@ func configure(waves_config: Array, preparation: float = 60.0, pause: float = 30
 	ui = ui_node
 	
 func update_wave_label():
-	if ui and ui.has_method("set_wave_text"):
-		ui.set_wave_text("Волна: %d / %d" % [current_wave + 1, waves.size()])
+	ui.set_wave_text("Волна: %d / %d" % [current_wave + 1, waves.size()])
+		
+func check_game_over():
+	var units = get_tree().get_nodes_in_group("unit")
+	var barracks = get_tree().get_nodes_in_group("barracks")
+
+	var has_units = false
+	for unit in units:
+		if unit.is_inside_tree():
+			has_units = true
+			break
+
+	var has_barracks = false
+	for barrack in barracks:
+		if barrack.is_inside_tree() and not barrack.is_queued_for_deletion():
+			has_barracks = true
+			break
+
+	if not has_units and not has_barracks:
+		game_over()
+
+func game_over():
+	print("Игра окончена! Все юниты и казармы уничтожены.")
+	# TODO: переход на экран поражения, перезапуск уровня и т.п.

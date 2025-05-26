@@ -4,6 +4,7 @@ var ghost: Node3D = null  # Предпросмотр (прозрачный си�
 var current_type := 0  # Тип здания, например "type1"
 
 func start_placement(type: int):
+	GameManager.ghost_building = true
 	current_type = type
 	if ghost:
 		ghost.queue_free()

@@ -1,10 +1,10 @@
 [gd_scene load_steps=4 format=3 uid="uid://coqhdoa2gkrp4"]
 
 [ext_resource type="Script" uid="uid://dmyjbadkq1cih" path="res://scripts/resource.gd" id="1_hdw57"]
-[ext_resource type="PackedScene" uid="uid://mlnweiv5ai2u" path="res://assets/Area-Finish/руда 2.fbx" id="2_r4nfc"]
+[ext_resource type="PackedScene" uid="uid://draytnifvduav" path="res://assets/Area-Finish/ore3.fbx" id="2_87r5b"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_r4nfc"]
-size = Vector3(1.5, 1.2, 1.4)
+size = Vector3(1.71338, 1.2, 1.93274)
 
 [node name="Resource" type="Area3D" groups=["resource"]]
 script = ExtResource("1_hdw57")
@@ -34,9 +34,8 @@ offset_top = -38.0
 offset_right = 41.0
 offset_bottom = -11.0
 
-[node name="Model" parent="." instance=ExtResource("2_r4nfc")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.55607, -0.0509671, -0.235818)
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0139846, 0.549033, -0.135818)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.120674, 0.549033, -0.0694482)
 shape = SubResource("BoxShape3D_r4nfc")
+
+[node name="ore3" parent="." instance=ExtResource("2_87r5b")]

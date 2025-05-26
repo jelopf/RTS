@@ -2,24 +2,24 @@ extends Node3D
 
 @export var hp := 250
 @export var unit_count := 5
-@export var spawn_scene := preload("res://scenes/humanoids/Unit.tscn")  # сюда потом префаб юнита
+@export var spawn_scene := preload("res://scenes/humanoids/Unit.tscn") 
 
-var is_placed := false  # чтобы следить, построена ли казарма
+var is_placed := false
 
 func _ready():
-	# Пока ничего не запускаем, ждём place_barracks()
 	pass
 
 func place_barracks():
 	is_placed = true
 	add_to_group("targetable")
-	$Timer.wait_time = 5.0
+	add_to_group("barracks") 
+	$Timer.wait_time = 20.0
 	$Timer.start()
 	print("Казарма активирована и начала спавн юнитов.")
 
 func _on_timer_timeout():
 	if not is_placed:
-		return  # Не спавним, если казарма ещё не построена
+		return
 
 	for i in unit_count:
 		var unit = spawn_scene.instantiate()
@@ -28,7 +28,7 @@ func _on_timer_timeout():
 
 func take_damage(amount: int, _attacker: Node3D = null):
 	if not is_placed:
-		return  # Призраки не получают урон
+		return
 
 	hp -= amount
 	print("Казарма получила урон:", amount, " Осталось HP:", hp)
@@ -36,6 +36,7 @@ func take_damage(amount: int, _attacker: Node3D = null):
 		print("Казарма уничтожена.")
 		_on_destroyed()
 		queue_free()
+		GameManager.check_game_over() 
 
 func _on_destroyed():
 	var grid_pos = GridManager.world_to_grid(global_transform.origin)

@@ -44,9 +44,14 @@ func mine():
 		mining_progress = 0.0
 		show_progress_bar()
 		await update_progress_bar()
-		give_metal()
+		
+		# Новая проверка:
+		if not GameManager.is_combat_active():
+			give_metal()
+		
 		hide_resource()
 		start_regen()
+
 
 
 func give_metal():
@@ -138,6 +143,7 @@ func hide_progress_bar():
 	mining_bar.value = 0
 	timer_label.visible = false
 	mining_time = 5.0
+	
 	
 
 func deactivate():

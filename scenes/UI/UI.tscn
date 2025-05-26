@@ -1,8 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://6smgg4t2rruj"]
+[gd_scene load_steps=3 format=3 uid="uid://6smgg4t2rruj"]
 
 [ext_resource type="Script" uid="uid://di64ly464bh8o" path="res://scripts/ui.gd" id="1_0wsoe"]
 
-[node name="UI" type="Control"]
+[sub_resource type="LabelSettings" id="LabelSettings_0wsoe"]
+font_size = 22
+font_color = Color(0, 0, 0, 1)
+
+[node name="LevelUI" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -13,6 +17,7 @@ script = ExtResource("1_0wsoe")
 
 [node name="NextLevelButton" type="Button" parent="."]
 visible = false
+layout_mode = 0
 offset_left = 963.0
 offset_top = 304.0
 offset_right = 1141.0
@@ -20,11 +25,13 @@ offset_bottom = 335.0
 text = "Следующий уровень"
 
 [node name="WaveLabel" type="Label" parent="."]
-offset_left = 530.0
-offset_top = 31.0
-offset_right = 622.0
-offset_bottom = 54.0
+layout_mode = 0
+offset_left = 505.0
+offset_top = 24.0
+offset_right = 664.0
+offset_bottom = 63.0
 text = "Волна: 1 / 3"
+label_settings = SubResource("LabelSettings_0wsoe")
 horizontal_alignment = 1
 
 [node name="VictoryLabel" type="Label" parent="."]
@@ -44,3 +51,13 @@ offset_top = 364.0
 offset_right = 645.0
 offset_bottom = 395.0
 text = "Меню"
+
+[node name="OreCount" type="Label" parent="."]
+offset_left = 14.0
+offset_top = 23.0
+offset_right = 173.0
+offset_bottom = 62.0
+text = "Металл: 0"
+label_settings = SubResource("LabelSettings_0wsoe")
+
+[connection signal="pressed" from="NextLevelButton" to="." method="_on_NextLevelButton_pressed"]

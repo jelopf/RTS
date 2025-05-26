@@ -4,7 +4,7 @@ extends CharacterBody3D
 @export var attack_range := 1.5
 @export var attack_damage := 4
 @export var attack_interval := 3.0
-@export var hp := 15  
+@export var hp := 20
 
 var current_target: Node3D = null
 var is_attacking := false

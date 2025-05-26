@@ -7,29 +7,25 @@ var mining_target = null
 var attack_target = null
 var is_attacking = false
 var ready_to_attack = false
-
+var is_dead_flag = false 
 
 @export var speed := 3.0
-@export var hp := 25
+@export var hp := 10
 @export var attack_range := 2.0
 @export var attack_damage := 4
-@export var attack_interval := 3.0  # Каждые 3 секунды
+@export var attack_interval := 3.0
 
 func _ready():
 	add_to_group("targetable")
 	add_to_group("unit")
 
-
 func start_mining(resource_node):
 	if is_busy:
-		return # Юнит уже занят
+		return
 	is_busy = true
 	mining_target = resource_node
-	
 	var raw_pos = resource_node.global_transform.origin
-	# Принудительно выставим Y в 0, чтобы идти по земле
 	target_position = Vector3(raw_pos.x, 0.5, raw_pos.z)
-
 
 func _physics_process(_delta):
 	if is_attacking:
@@ -60,18 +56,14 @@ func _physics_process(_delta):
 		if global_transform.origin.distance_to(target_position) < 2.0:
 			velocity = Vector3.ZERO
 			start_mining_process()
-			
+
 	if not is_busy and not is_processing_mining and not is_attacking:
 		var nearest = find_nearest_enemy()
 		if nearest:
 			attack_target = nearest
 			start_attack()
 
-
-
-
 func start_mining_process():
-	# Добавляем проверку перед стартом добычи
 	if GameManager.is_combat_active():
 		print("Фаза боя: добыча отменена.")
 		is_busy = false
@@ -91,8 +83,10 @@ func start_mining_process():
 	mining_target = null
 	print("Добыча завершена! Юнит снова свободен.")
 
-
 func take_damage(amount: int, attacker: Node3D = null):
+	if is_dead_flag:
+		return
+
 	hp -= amount
 	print("Юнит получил урон:", amount, " Осталось HP:", hp)
 
@@ -106,17 +100,17 @@ func take_damage(amount: int, attacker: Node3D = null):
 		start_attack()
 
 	if hp <= 0:
+		is_dead_flag = true
 		queue_free()
+		GameManager.check_game_over()
 
 func start_attack():
 	if not attack_target or is_attacking:
 		return
-	
 	is_attacking = true
 	is_busy = true
 	ready_to_attack = false
 	target_position = attack_target.global_transform.origin
-
 
 func attack_loop():
 	if not is_instance_valid(attack_target):
@@ -127,17 +121,14 @@ func attack_loop():
 		return
 
 	if global_transform.origin.distance_to(attack_target.global_transform.origin) > attack_range:
-		# Ждём, пока дойдём - проверка и атака вернётся из _physics_process
 		return
 
-	# Атака цели
 	if attack_target.has_method("take_damage"):
 		attack_target.take_damage(attack_damage)
 
 	await get_tree().create_timer(attack_interval).timeout
 	attack_loop()
 
-	
 func interrupt_mining():
 	if is_processing_mining:
 		is_busy = false
@@ -146,8 +137,7 @@ func interrupt_mining():
 			mining_target.hide_progress_bar()
 		mining_target = null
 		print("Добыча прервана. Юнит возвращён в боевую готовность.")
-		
-		
+
 func find_nearest_enemy() -> Node3D:
 	var nearest_enemy = null
 	var min_dist = INF
@@ -159,3 +149,6 @@ func find_nearest_enemy() -> Node3D:
 			min_dist = dist
 			nearest_enemy = enemy
 	return nearest_enemy
+	
+func is_dead() -> bool:
+	return hp <= 0 or not is_inside_tree()

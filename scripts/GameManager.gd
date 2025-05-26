@@ -3,6 +3,7 @@ extends Node
 var metal := 100
 var selected_barracks_type := 1  # По умолчанию тип 1
 var combat_active := false
+var ui_node: Node = null
 
 # Таблица с характеристиками казарм
 var barracks_data = {
@@ -28,17 +29,22 @@ var barracks_data = {
 
 var ghost_building := false  # Флаг: в режиме предпросмотра или нет
 
+func set_ui(ui: Node):
+	ui_node = ui
+	if ui_node:
+		ui_node.set_metal_count("Металл: %d" % metal)
 
 func add_metal(amount: int):
 	metal += amount
-	print("Металл теперь: ", metal)
+	if ui_node:
+		ui_node.set_metal_count("Металл: %d" % metal)
 
 func spend_metal(amount: int) -> bool:
 	if metal >= amount:
 		metal -= amount
-		print("Потрачено! Осталось металла: ", metal)
+		if ui_node:
+			ui_node.set_metal_count("Металл: %d" % metal)
 		return true
-	print("Недостаточно металла!")
 	return false
 
 func set_selected_barracks_type(type: int):
@@ -102,3 +108,26 @@ func set_resources_interactive(enabled: bool):
 	for res in resources:
 		if res.has_method("set_interactive"):
 			res.set_interactive(enabled)
+			
+func check_game_over():
+	var units = get_tree().get_nodes_in_group("unit")
+	var barracks = get_tree().get_nodes_in_group("barracks")
+	
+	var has_units = false
+	for unit in units:
+		if unit.is_inside_tree() and not unit.is_dead():
+			has_units = true
+			break
+
+	var has_barracks = false
+	for barrack in barracks:
+		if barrack.is_inside_tree() and not barrack.is_queued_for_deletion():
+			has_barracks = true
+			break
+
+	if not has_units and not has_barracks:
+		game_over()
+
+
+func game_over():
+	print("Игра окончена! Все юниты и казармы уничтожены.")

@@ -1,11 +1,12 @@
 extends Node3D
 
-@onready var shop_menu = $UI/ShopMenu  # Убедись, что путь совпадает с названием узла
+@onready var shop_menu = $UI/ShopMenu/ShopMenu  # Убедись, что путь совпадает с названием узла
 @onready var wave_manager = $WaveManager
-@onready var ui = $UI
+@onready var ui = $UI/LevelUI
 
 func _ready():
 	wave_manager.configure([3, 3, 5], 10.0, 10.0, ui)
+	GameManager.set_ui(ui)
 	
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed and event.keycode == KEY_M:
