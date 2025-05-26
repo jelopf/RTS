@@ -70,15 +70,21 @@ func create_barracks(position: Vector3):
 
 func start_combat_phase():
 	combat_active = true
-	print("Началась боевая фаза! Ресурсы временно недоступны.")
+	set_resources_interactive(false)
 	var resources = get_tree().get_nodes_in_group("resource")
-	for resource in resources:
-		if resource.has_method("hide_resource"):
-			resource.hide_resource()
-			resource.is_available = false
+	for res in resources:
+		if res.has_method("deactivate"):
+			res.deactivate()
+	# Останавливаем добычу у всех юнитов
+	var units = get_tree().get_nodes_in_group("unit")
+	for u in units:
+		if u.has_method("interrupt_mining"):
+			u.interrupt_mining()
+
 
 func end_combat_phase():
 	combat_active = false
+	set_resources_interactive(true)
 	print("Боевая фаза завершена! Ресурсы снова доступны.")
 	var resources = get_tree().get_nodes_in_group("resource")
 	for resource in resources:
@@ -86,5 +92,13 @@ func end_combat_phase():
 			resource.show_resource()
 			resource.is_available = true
 
+
 func is_combat_active() -> bool:
 	return combat_active
+
+	
+func set_resources_interactive(enabled: bool):
+	var resources = get_tree().get_nodes_in_group("resource")
+	for res in resources:
+		if res.has_method("set_interactive"):
+			res.set_interactive(enabled)

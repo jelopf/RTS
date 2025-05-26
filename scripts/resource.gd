@@ -5,6 +5,7 @@ extends Node3D
 @export var mining_time := 5.0
 
 var is_available := true
+var _is_clickable = true
 var mining_progress := 0.0
 var mining_bar: ProgressBar = null
 var progress_bar_instance: Control = null
@@ -34,14 +35,19 @@ func _ready():
 	progress_bar_instance = mining_bar.get_parent()
 
 func mine():
+	if GameManager.is_combat_active():
+		print("Сейчас фаза боя, добыча невозможна!")
+		return
+
 	if is_available:
 		is_available = false
 		mining_progress = 0.0
 		show_progress_bar()
-		await update_progress_bar()  # ждем пока прогрессбар завершит анимацию
+		await update_progress_bar()
 		give_metal()
 		hide_resource()
 		start_regen()
+
 
 func give_metal():
 	GameManager.add_metal(metal_amount)
@@ -51,8 +57,9 @@ func start_regen():
 	await get_tree().create_timer(regen_time).timeout
 
 	# Ждём до конца боевой фазы, если она всё ещё идёт
-	while GameManager.has_method("is_combat_active") and GameManager.is_combat_active():
+	while GameManager.is_combat_active():
 		await get_tree().create_timer(1.0).timeout
+	
 
 	is_available = true
 	show_resource()
@@ -88,8 +95,10 @@ func assign_unit_to_mine():
 func show_progress_bar():
 	mining_bar.visible = true
 	mining_bar.value = 0
+	timer_label.visible = true 
 	timer_label.text = str(mining_time) + " секунд"
 	update_progress_bar()
+
 
 func update_progress_bar() -> void:
 	var elapsed = 0.0
@@ -97,6 +106,10 @@ func update_progress_bar() -> void:
 	var target_position = global_transform.origin
 
 	while elapsed < mining_time:
+		if GameManager.is_combat_active():
+			print("Фаза боя началась во время добычи!")
+			hide_progress_bar()
+			hide_resource()
 		mining_bar.value = (elapsed / mining_time) * 100
 		timer_label.text = str(round(mining_time - elapsed)) + " секунд"
 		update_bar_position(target_position)
@@ -107,17 +120,25 @@ func update_progress_bar() -> void:
 	timer_label.text = "Готово!"
 	update_bar_position(target_position)
 
-	await get_tree().create_timer(0.5).timeout  # чуть-чуть подождем перед исчезновением (по желанию)
+	await get_tree().create_timer(0.5).timeout
 	hide_progress_bar()
 
 
+
 func update_bar_position(target_position):
-	var screen_position = get_viewport().get_camera_3d().unproject_position(target_position)
+	var camera = get_viewport().get_camera_3d()
+	if camera == null:
+		return
+	var screen_position = camera.unproject_position(target_position)
 	progress_bar_instance.position = Vector2(screen_position.x, screen_position.y - 50)
+
 
 func hide_progress_bar():
 	mining_bar.visible = false
-	timer_label.text = ""
+	mining_bar.value = 0
+	timer_label.visible = false
+	mining_time = 5.0
+	
 
 func deactivate():
 	if is_available:
@@ -125,3 +146,9 @@ func deactivate():
 		hide_resource()
 		hide_progress_bar()
 		print("Ресурс временно отключён.")
+		
+func is_clickable():
+	return _is_clickable
+
+func set_interactive(value: bool):
+	_is_clickable = value

@@ -1,6 +1,6 @@
 extends Node
 
-@export var preparation_time := 10.0
+@export var preparation_time := 30.0
 @export var break_time := 5.0
 @export var waves: Array = [1, 3, 5]  # Пример: [[3], [3], [5]]
 var ui: Node = null  # UI сцена
@@ -47,6 +47,7 @@ func start_next_wave():
 
 	if GameManager.has_method("end_combat_phase"):
 		GameManager.end_combat_phase()
+		
 
 	if current_wave < waves.size():
 		print("Перерыв ", break_time, " секунд.")

@@ -19,8 +19,10 @@ func _input(event):
 		var clicked = result.collider
 
 		# Всегда даём возможность кликнуть по ресурсу
-		if clicked and clicked.is_in_group("resource") and clicked.has_method("on_clicked"):
-			clicked.call("on_clicked")
+		if clicked and clicked.is_in_group("resource"):
+			if clicked.has_method("is_clickable") and clicked.is_clickable():
+				clicked.on_clicked()
+
 			
 		# Клик по врагу
 		if clicked and clicked.is_in_group("enemy") and clicked.has_method("on_clicked"):

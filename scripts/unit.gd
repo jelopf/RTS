@@ -71,6 +71,16 @@ func _physics_process(_delta):
 
 
 func start_mining_process():
+	# Добавляем проверку перед стартом добычи
+	if GameManager.is_combat_active():
+		print("Фаза боя: добыча отменена.")
+		is_busy = false
+		is_processing_mining = false
+		if mining_target:
+			mining_target.hide_progress_bar()
+		mining_target = null
+		return
+
 	is_processing_mining = true
 	print("Начало добычи! Ждём ", mining_target.mining_time, " секунд.")
 
@@ -80,6 +90,7 @@ func start_mining_process():
 	is_processing_mining = false
 	mining_target = null
 	print("Добыча завершена! Юнит снова свободен.")
+
 
 func take_damage(amount: int, attacker: Node3D = null):
 	hp -= amount
@@ -100,7 +111,7 @@ func take_damage(amount: int, attacker: Node3D = null):
 func start_attack():
 	if not attack_target or is_attacking:
 		return
-
+	
 	is_attacking = true
 	is_busy = true
 	ready_to_attack = false
