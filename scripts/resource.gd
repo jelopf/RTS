@@ -16,7 +16,6 @@ var mesh: Node3D = null
 
 
 func _ready():
-	# Ищем прогрессбар
 	mining_bar = $CanvasLayer/Control/ProgressBar
 	if mining_bar == null:
 		print("Ошибка: Прогрессбар не найден!")
@@ -24,14 +23,12 @@ func _ready():
 	add_to_group("resource")
 
 
-	# Ищем лейбл
 	timer_label = $CanvasLayer/Control/Label
 	if timer_label == null:
 		print("Ошибка: Лейбл не найден!")
 		return
 
-	# Ищем визуальный меш
-	mesh = $"."  # Или замени путь на нужный тебе, если он другой
+	mesh = $"."  
 
 	mining_bar.visible = false
 	progress_bar_instance = mining_bar.get_parent()
@@ -47,7 +44,6 @@ func mine():
 		show_progress_bar()
 		await update_progress_bar()
 		
-		# Новая проверка:
 		if not GameManager.is_combat_active():
 			give_metal()
 		
@@ -63,7 +59,6 @@ func give_metal():
 func start_regen():
 	await get_tree().create_timer(regen_time).timeout
 
-	# Ждём до конца боевой фазы, если она всё ещё идёт
 	while GameManager.is_combat_active():
 		await get_tree().create_timer(1.0).timeout
 	
@@ -76,7 +71,7 @@ func start_regen():
 func hide_resource():
 	if mesh:
 		mesh.visible = false
-	visible = false  # Прячем сам узел, чтобы не ловить клики
+	visible = false  
 
 func show_resource():
 	if mesh:

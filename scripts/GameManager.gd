@@ -3,7 +3,7 @@
 extends Node
 
 var metal := 10
-var selected_barracks_type := 1  # По умолчанию тип 1
+var selected_barracks_type := 1  
 var combat_active := false
 var ui_node: Node = null
 
@@ -40,10 +40,10 @@ func get_next_level_path() -> String:
 	var index = levels.find(current)
 	if index >= 0 and index + 1 < levels.size():
 		return levels[index + 1]
-	return ""  # Больше нет уровней
+	return ""
 	
 
-var ghost_building := false  # Флаг: в режиме предпросмотра или нет
+var ghost_building := false  
 
 func set_ui(ui: Node):
 	ui_node = ui
@@ -179,3 +179,5 @@ func get_selected_units() -> Array:
 func set_selected_units(units: Array) -> void:
 	selected_units = units
 	
+func set_game_paused(paused: bool):
+	get_tree().paused = paused

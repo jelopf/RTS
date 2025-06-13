@@ -6,7 +6,7 @@ extends Control
 @onready var menu_button = $VBoxContainer/MainMenuButton
 
 func _ready():
-	visible = false  # скрыт по умолчанию
+	visible = false  
 
 func _on_retry_pressed():
 	var current_scene_path = get_tree().current_scene.scene_file_path

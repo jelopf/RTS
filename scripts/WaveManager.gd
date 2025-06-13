@@ -2,9 +2,9 @@
 
 extends Node
 
-@export var preparation_time := 30.0
-@export var break_time := 5.0
-@export var waves: Array = [1, 3, 5]  
+@export var preparation_time := 0.0
+@export var break_time := 0.0
+@export var waves: Array = []  
 var ui: Node = null
 
 
@@ -16,8 +16,7 @@ func _ready():
 	
 	if AudioLibrary and AudioLibrary.bg_music:
 		MusicManager.play_music(AudioLibrary.bg_music)
-		
-	start_preparation_phase()
+
 
 func start_preparation_phase():
 	print("Подготовка! У вас есть ", preparation_time, " секунд.")
@@ -80,7 +79,6 @@ func wait_for_wave_to_end():
 		await get_tree().create_timer(1.0).timeout
 
 func get_random_spawn_position():
-	# Возвращаем случайную точку спавна
 	return Vector3(randf_range(-5, 5), 0.5, 0.0)
 	
 func configure(params: Dictionary):

@@ -19,7 +19,6 @@ func play_3d(sound: AudioStream, position: Vector3):
 	var player = AudioStreamPlayer3D.new()
 	player.stream = sound
 	
-	# Всегда добавляем в корень текущей сцены
 	var current_scene = get_tree().current_scene
 	current_scene.add_child(player)
 	

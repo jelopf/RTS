@@ -2,8 +2,8 @@
 
 extends Node
 
-var ghost: Node3D = null  # Предпросмотр (прозрачный силуэт)
-var current_type := 0  # Тип здания, например "type1"
+var ghost: Node3D = null  
+var current_type := 0  
 
 func start_placement(type: int):
 	GameManager.ghost_building = true
@@ -71,7 +71,6 @@ func try_place_building(world_position: Vector3):
 	current_type = 0
 	
 	SoundManager.play_2d(AudioLibrary.sfx_build_barracks)
-
 
 
 func _unhandled_input(event):

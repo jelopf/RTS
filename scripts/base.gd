@@ -13,7 +13,6 @@ func _ready():
 	current_health = max_health
 	add_to_group("targetable")
 
-	# Получаем ссылки на элементы UI
 	health_bar = $CanvasLayer/Control/ProgressBar
 	if health_bar == null:
 		print("Ошибка: Прогрессбар не найден!")
@@ -21,7 +20,7 @@ func _ready():
 
 	progress_bar_instance = health_bar.get_parent()
 
-	mesh = $MeshInstance3D  # замени на правильный путь, если нужно
+	mesh = $MeshInstance3D  
 
 	health_bar.visible = true
 	update_health_bar()

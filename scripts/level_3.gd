@@ -2,7 +2,7 @@
 
 extends Node3D
 
-@onready var shop_menu = $UI/ShopMenu/ShopMenu  # Убедись, что путь совпадает с названием узла
+@onready var shop_menu = $UI/ShopMenu/ShopMenu 
 @onready var wave_manager = $WaveManager
 @onready var ui = $UI/LevelUI
 

@@ -21,5 +21,5 @@ func _on_type_3_pressed():
 	visible = false
 
 func _on_open_shop_button_pressed():
-	var shop_menu = $ShopMenu  # если ShopMenu рядом с кнопкой
+	var shop_menu = $ShopMenu  
 	shop_menu.visible = not shop_menu.visible

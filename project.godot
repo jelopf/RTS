@@ -23,6 +23,8 @@ GridManager="*res://scripts/GridManager.gd"
 SoundManager="*res://scripts/SoundManager.gd"
 MusicManager="*res://scripts/MusicManager.gd"
 AudioLibrary="*res://scenes/global scenes/AudioLibrary.tscn"
+ClickSoundManager="*res://scripts/ClickSoundManager.gd"
+SaveManager="*res://scripts/SaveManager.gd"
 
 [rendering]
 

@@ -5,7 +5,7 @@ extends CharacterBody3D
 @export var speed := 1.0
 @export var attack_range := 3
 @export var attack_damage := 5
-@export var attack_interval := 3.0
+@export var attack_interval := 2.0
 @export var hp := 15
 
 var current_target: Node3D = null
@@ -29,7 +29,7 @@ func _physics_process(_delta):
 
 func move_towards(target):
 	var target_pos = target.global_transform.origin
-	target_pos.y = 0.5  # Принудительно по земле
+	target_pos.y = 0.5  
 
 	var direction = (target_pos - global_transform.origin).normalized()
 	velocity = direction * speed
@@ -48,18 +48,15 @@ func attack_loop() -> void:
 		return
 
 	if current_target.has_method("take_damage"):
-		# Воспроизводим звук атаки с позицией врага
 		SoundManager.play_3d(AudioLibrary.sfx_combat, global_transform.origin)
 		
 		current_target.take_damage(attack_damage, self)
 	else:
-		# Если цель не имеет метода take_damage, прекращаем атаку
 		is_attacking = false
 		return
 
-	# Ожидаем интервал и повторяем
 	await get_tree().create_timer(attack_interval).timeout
-	attack_loop()  # Рекурсивный вызов для следующей атаки
+	attack_loop() 
 
 func find_target():
 	var min_dist = INF
