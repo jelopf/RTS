@@ -1,6 +1,8 @@
+# GameManager.gd
+
 extends Node
 
-var metal := 0
+var metal := 10
 var selected_barracks_type := 1  # По умолчанию тип 1
 var combat_active := false
 var ui_node: Node = null
@@ -72,21 +74,24 @@ func get_selected_barracks_data() -> Dictionary:
 func get_selected_barracks_cost() -> int:
 	return get_selected_barracks_data().get("cost", 999)
 
-func create_barracks(position: Vector3):
-	var data = get_selected_barracks_data()
+
+func create_barracks_instance(type: int = -1) -> Node:
+	var t = type if type != -1 else selected_barracks_type
+	var data = barracks_data.get(t, {})
 	if data.is_empty():
-		print("Ошибка: нет данных для текущего типа казармы")
-		return
+		print("Ошибка: нет данных для типа казармы ", t)
+		return null
 	
 	if not spend_metal(data["cost"]):
-		return
-
-	var barracks = preload("res://scenes/objects/Barracks.tscn").instantiate()
+		return null
+	
+	var scene = load(data["scene_path"])
+	var barracks = scene.instantiate()
+	barracks.add_to_group("barracks")
 	barracks.hp = data["hp"]
-	barracks.unit_count = data["unit_count"]
-	barracks.global_transform.origin = position
-	get_tree().current_scene.add_child(barracks)
-	print("Казарма создана с HP: ", data["hp"], ", юнитов: ", data["unit_count"])
+	barracks.unit_count = data["units"]
+	return barracks
+
 
 func start_combat_phase():
 	combat_active = true
@@ -95,7 +100,6 @@ func start_combat_phase():
 	for res in resources:
 		if res.has_method("deactivate"):
 			res.deactivate()
-	# Останавливаем добычу у всех юнитов
 	var units = get_tree().get_nodes_in_group("unit")
 	for u in units:
 		if u.has_method("interrupt_mining"):
@@ -105,7 +109,6 @@ func start_combat_phase():
 func end_combat_phase():
 	combat_active = false
 	set_resources_interactive(true)
-	print("Боевая фаза завершена! Ресурсы снова доступны.")
 	var resources = get_tree().get_nodes_in_group("resource")
 	for resource in resources:
 		if resource.has_method("show_resource"):
@@ -116,12 +119,13 @@ func end_combat_phase():
 func is_combat_active() -> bool:
 	return combat_active
 
-	
+
 func set_resources_interactive(enabled: bool):
 	var resources = get_tree().get_nodes_in_group("resource")
 	for res in resources:
 		if res.has_method("set_interactive"):
 			res.set_interactive(enabled)
+			
 			
 func check_game_over():
 	var units = get_tree().get_nodes_in_group("unit")
@@ -150,14 +154,22 @@ func game_over():
 
 
 func show_game_over_screen():
-	var screen = get_tree().current_scene.get_node("UI/DefeatScreen")
+	MusicManager.stop_music()
+	var screen = get_tree().current_scene.get_node_or_null("UI/DefeatScreen")
 	if screen:
 		screen.visible = true
+	else:
+		print("DefeatScreen не найден в UI!")
+
 
 func show_victory_screen():
-	var screen = get_tree().current_scene.get_node("UI/VictoryScreen")
+	MusicManager.stop_music()
+	var screen = get_tree().current_scene.get_node_or_null("UI/VictoryScreen")
 	if screen:
 		screen.visible = true
+	else:
+		print("VictoryScreen не найден в UI!")
+
 
 var selected_units: Array = []
 

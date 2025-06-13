@@ -1,3 +1,5 @@
+# ui.gd
+
 extends Control
 
 func set_wave_text(text: String):

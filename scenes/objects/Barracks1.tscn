@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://fdqya2asu26o" path="res://assets/Barracks/казарма 1.fbx" id="2_svone"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_l6g71"]
-size = Vector3(1, 1.1, 1)
+size = Vector3(1, 1.2, 1)
 
 [node name="Area3D" type="Node3D"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
@@ -18,7 +18,7 @@ autostart = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0, 0.5)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Barrack"]
-transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.5, 1.85, -0.5)
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, -0.5, 1.7, -0.5)
 shape = SubResource("BoxShape3D_l6g71")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

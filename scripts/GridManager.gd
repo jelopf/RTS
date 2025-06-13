@@ -1,3 +1,5 @@
+# GridManager.gd
+
 extends Node
 
 const CELL_SIZE = 5.0  # размер одной клетки (в юнитах Godot)

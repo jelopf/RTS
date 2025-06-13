@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://ek78ix2wfrwg"]
+[gd_scene load_steps=24 format=3 uid="uid://ek78ix2wfrwg"]
 
 [ext_resource type="Script" uid="uid://c5c5yyubocvhl" path="res://scripts/level_1.gd" id="1_7d7pp"]
 [ext_resource type="Script" uid="uid://cf6kyk6if4g83" path="res://scripts/camera_3d.gd" id="2_e5nfq"]
 [ext_resource type="Texture2D" uid="uid://bd827u8qorxsd" path="res://assets/sky)/sky1.png" id="2_njy47"]
 [ext_resource type="PackedScene" uid="uid://djgeqc4q3t5ux" path="res://scenes/objects/Resource1.tscn" id="3_lha2r"]
 [ext_resource type="PackedScene" uid="uid://coqhdoa2gkrp4" path="res://scenes/objects/Resource2.tscn" id="4_6owa4"]
+[ext_resource type="AudioStream" uid="uid://brgiswhs4kaf0" path="res://assets/sounds/click.mp3" id="5_bspq0"]
 [ext_resource type="Script" uid="uid://bucgt0yoy23s5" path="res://scripts/WaveManager.gd" id="6_kypp1"]
 [ext_resource type="PackedScene" uid="uid://2vwggparonoj" path="res://scenes/UI/ShopMenu.tscn" id="7_ukjja"]
 [ext_resource type="PackedScene" uid="uid://bahj83hb8jkcg" path="res://scenes/objects/Ground.tscn" id="8_p5s5a"]
@@ -48,6 +49,9 @@ transform = Transform3D(1, 0, 0, 0, 0.996195, 0.087156, 0, -0.087156, 0.996195, 
 current = true
 fov = 90.3058
 script = ExtResource("2_e5nfq")
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="Camera3D"]
+stream = ExtResource("5_bspq0")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.906847, -0.347351, 0.238697, 0.117977, 0.752927, 0.647443, -0.404612, -0.558971, 0.723769, 2.92406, 25.8042, -38.9815)

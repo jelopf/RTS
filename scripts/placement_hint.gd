@@ -1,3 +1,5 @@
+# placement_hint.gd
+
 extends Label
 
 func _process(_delta):

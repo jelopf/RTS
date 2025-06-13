@@ -1,3 +1,5 @@
+# main_menu.gd
+
 extends Control
 
 @onready var level_select_panel = $LevelSelectPanel

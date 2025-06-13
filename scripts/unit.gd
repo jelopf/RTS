@@ -1,3 +1,5 @@
+# unit.gd
+
 extends CharacterBody3D
 
 var is_busy = false
@@ -12,9 +14,9 @@ var manual_attack_target := false
 
 
 @export var speed := 2.0
-@export var hp := 100
-@export var attack_range := 2.0
-@export var attack_damage := 10
+@export var hp := 15
+@export var attack_range := 3.0
+@export var attack_damage := 5
 @export var attack_interval := 3.0
 
 func _ready():

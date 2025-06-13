@@ -1,8 +1,10 @@
+# enemy.gd
+
 extends CharacterBody3D
 
 @export var speed := 1.0
-@export var attack_range := 1.5
-@export var attack_damage := 6
+@export var attack_range := 3
+@export var attack_damage := 5
 @export var attack_interval := 3.0
 @export var hp := 15
 
@@ -12,6 +14,7 @@ var is_attacking := false
 func _ready():
 	print("Враг загружен!")
 	find_target()
+	$CombatAudio.stream = AudioLibrary.sfx_combat
 
 func _physics_process(_delta):
 	if not is_attacking:
@@ -39,16 +42,24 @@ func start_attacking():
 	attack_loop()
 
 func attack_loop() -> void:
-	if not is_instance_valid(current_target):
+	if not is_instance_valid(current_target) or is_queued_for_deletion():
 		is_attacking = false
 		find_target()
 		return
 
 	if current_target.has_method("take_damage"):
-		current_target.take_damage(attack_damage)
+		# Воспроизводим звук атаки с позицией врага
+		SoundManager.play_3d(AudioLibrary.sfx_combat, global_transform.origin)
+		
+		current_target.take_damage(attack_damage, self)
+	else:
+		# Если цель не имеет метода take_damage, прекращаем атаку
+		is_attacking = false
+		return
 
+	# Ожидаем интервал и повторяем
 	await get_tree().create_timer(attack_interval).timeout
-	attack_loop()
+	attack_loop()  # Рекурсивный вызов для следующей атаки
 
 func find_target():
 	var min_dist = INF

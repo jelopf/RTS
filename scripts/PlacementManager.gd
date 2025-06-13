@@ -1,3 +1,5 @@
+# PlacementManager.gd
+
 extends Node
 
 var ghost: Node3D = null  # Предпросмотр (прозрачный силуэт)
@@ -50,22 +52,26 @@ func try_place_building(world_position: Vector3):
 		print("Клетка занята!")
 		return
 
-	var data = GameManager.barracks_data[current_type]
-	if GameManager.spend_metal(data["cost"]):
-		var building = load(data["scene_path"]).instantiate()
-		get_tree().current_scene.add_child(building)
-		building.global_transform.origin = GridManager.grid_to_world(grid_pos)
-		GridManager.occupy_cell(grid_pos)
+	var world_pos = GridManager.grid_to_world(grid_pos)
 
-		if building.has_method("place_barracks"):
-			building.place_barracks()
+	var barracks = GameManager.create_barracks_instance(current_type)
+	if not barracks:
+		print("Недостаточно металла или ошибка создания казармы")
+		return
 
-		ghost.queue_free()
-		ghost = null
-		GameManager.ghost_building = false
-		current_type = 0
-	else:
-		print("Недостаточно металла для покупки!")
+	get_tree().current_scene.add_child(barracks)
+	barracks.global_transform.origin = world_pos
+	barracks.place_barracks()
+	GridManager.occupy_cell(grid_pos)
+	
+
+	ghost.queue_free()
+	ghost = null
+	GameManager.ghost_building = false
+	current_type = 0
+	
+	SoundManager.play_2d(AudioLibrary.sfx_build_barracks)
+
 
 
 func _unhandled_input(event):

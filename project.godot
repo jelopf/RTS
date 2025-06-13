@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="RTS"
-run/main_scene="uid://ek78ix2wfrwg"
+run/main_scene="uid://cnlo7cvqw7j8h"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -20,3 +20,10 @@ config/icon="res://icon.svg"
 GameManager="*res://scripts/GameManager.gd"
 PlacementManager="*res://scripts/PlacementManager.gd"
 GridManager="*res://scripts/GridManager.gd"
+SoundManager="*res://scripts/SoundManager.gd"
+MusicManager="*res://scripts/MusicManager.gd"
+AudioLibrary="*res://scenes/global scenes/AudioLibrary.tscn"
+
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true

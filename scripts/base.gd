@@ -1,3 +1,5 @@
+# base.gd
+
 extends Area3D
 
 @export var max_health := 100

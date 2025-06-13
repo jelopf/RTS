@@ -1,3 +1,5 @@
+# barracks.gd
+
 extends Area3D
 
 @export var hp := 100

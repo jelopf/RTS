@@ -1,3 +1,5 @@
+# ShopMenu.gd
+
 extends Control
 
 func _ready():

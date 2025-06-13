@@ -1,7 +1,10 @@
+# camera_3d.gd
+
 extends Camera3D
 
 func _input(event):
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		$ClickSound.play()
 		var from = project_ray_origin(event.position)
 		var to = from + project_ray_normal(event.position) * 1000
 		var space_state = get_world_3d().direct_space_state

@@ -35,6 +35,7 @@ offset_bottom = 395.0
 text = "Меню"
 
 [node name="OreCount" type="Label" parent="."]
+layout_mode = 0
 offset_left = 14.0
 offset_top = 23.0
 offset_right = 173.0

@@ -1,3 +1,5 @@
+# defeat_screen.gd
+
 extends Control
 
 @onready var retry_button = $VBoxContainer/RetryButton

@@ -1,3 +1,5 @@
+# level_3.gd
+
 extends Node3D
 
 @onready var shop_menu = $UI/ShopMenu/ShopMenu  # Убедись, что путь совпадает с названием узла
@@ -5,7 +7,12 @@ extends Node3D
 @onready var ui = $UI/LevelUI
 
 func _ready():
-	wave_manager.configure([3, 3, 5], 10.0, 10.0, ui)
+	wave_manager.configure({
+	"waves": [3, 3, 5],
+	"preparation_time": 10.0,
+	"break_time": 10.0,
+	"ui": ui
+})
 	GameManager.set_ui(ui)
 	
 func _unhandled_input(event):

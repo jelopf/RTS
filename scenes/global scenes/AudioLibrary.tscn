@@ -1,0 +1,16 @@
+[gd_scene load_steps=7 format=3 uid="uid://cmykw80ueqgs6"]
+
+[ext_resource type="Script" uid="uid://bifxbpb0yh64s" path="res://scripts/audio_library.gd" id="1_vmgwi"]
+[ext_resource type="AudioStream" uid="uid://brgiswhs4kaf0" path="res://assets/sounds/click.mp3" id="2_kd1bn"]
+[ext_resource type="AudioStream" uid="uid://bfd5bgia43go0" path="res://assets/sounds/barrack_spawn.mp3" id="3_ure8j"]
+[ext_resource type="AudioStream" uid="uid://b6e3w7udsb871" path="res://assets/sounds/unit_spawn.mp3" id="4_5fx5q"]
+[ext_resource type="AudioStream" uid="uid://b43x36qu0jgfm" path="res://assets/sounds/battle.mp3" id="5_ljgqo"]
+[ext_resource type="AudioStream" uid="uid://bfti7hkp17ex6" path="res://assets/sounds/background.mp3" id="6_npohn"]
+
+[node name="AudioLibrary" type="Node"]
+script = ExtResource("1_vmgwi")
+sfx_player_action = ExtResource("2_kd1bn")
+sfx_build_barracks = ExtResource("3_ure8j")
+sfx_unit_spawn = ExtResource("4_5fx5q")
+sfx_combat = ExtResource("5_ljgqo")
+bg_music = ExtResource("6_npohn")

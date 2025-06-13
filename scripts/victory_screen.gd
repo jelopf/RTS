@@ -1,3 +1,5 @@
+#victory_screen.gd
+
 extends Control
 
 @onready var next_button = $VBoxContainer/NextLevelButton

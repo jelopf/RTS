@@ -1,3 +1,5 @@
+# resource.gd
+
 extends Node3D
 
 @export var metal_amount := 5
